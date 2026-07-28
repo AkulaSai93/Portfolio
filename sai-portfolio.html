@@ -625,8 +625,8 @@
   .b9{ left:77.9%;  top:39.6%;  width:180px; height:61px; }
   .b9 span{ --tilt:6.13deg; }
 
-  /* ---------- approach: scroll-driven storytelling (pinned) ---------- */
-  .approach-head{ padding:60px 120px 60px; }
+  /* ---------- approach: compact section, scroll-linked highlight/image ---------- */
+  .approach-head{ padding:60px 120px 0; }
   .approach-head h2{
     font-size:clamp(28px,5vw,48px);
     font-weight:600;
@@ -641,18 +641,10 @@
     color:var(--white);
     padding:4px 14px;
   }
-  /* the wrapper is deliberately much taller than one viewport (6 steps worth
-     of scroll distance) so the inner panel can pin in place while the user
-     scrolls through it, then release naturally once its content ends */
-  .scrolly{
-    position:relative;
-    height:280vh;
-  }
+  .scrolly{ padding:60px 0 80px; }
   .scrolly__pin{
-    position:sticky;
-    top:80px;
     display:flex;
-    align-items:flex-start;
+    align-items:center;
   }
   .scrolly__inner{
     display:flex;
@@ -1351,7 +1343,7 @@
     });
   })();
 
-  // --- approach: pinned scroll-driven storytelling ---
+  // --- approach: compact section, highlight/image driven by scroll position ---
   (function(){
     var wrapper = document.querySelector('.scrolly');
     var steps = document.querySelectorAll('.scrolly__steps li');
@@ -1363,62 +1355,27 @@
       images.forEach(function(img){ img.classList.toggle('is-active', img.dataset.key === key); });
     }
 
-    var desktopQuery = window.matchMedia('(min-width:901px)');
     var ticking = false;
-
-    // Desktop: the wrapper is 600vh tall and its inner panel is pinned via
-    // position:sticky, so the whole scroll distance through the wrapper maps
-    // directly to "which of the 6 steps is active right now".
-    function updateFromScrollProgress(){
+    // The section is compact, so progress is measured over a fixed window
+    // around the vertical middle of the viewport: progress = 0 once the
+    // section's top has scrolled up to the middle of the screen, progress = 1
+    // once its bottom has scrolled up past the middle — giving a smooth
+    // step-by-step change centered on the middle of the viewport.
+    function updateActiveStep(){
       var r = wrapper.getBoundingClientRect();
-      var span = r.height - window.innerHeight;
-      var progress = span > 0 ? (-r.top) / span : 0;
+      var mid = window.innerHeight / 2;
+      var span = r.height;
+      var progress = span > 0 ? (mid - r.top) / span : 0;
       progress = Math.min(1, Math.max(0, progress));
       var index = Math.min(steps.length - 1, Math.floor(progress * steps.length));
       setActive(steps[index].dataset.img);
       ticking = false;
     }
-
-    // Mobile: content isn't pinned, steps flow normally in the page, so use
-    // IntersectionObserver on each step as it physically scrolls into view.
-    var observer = null;
-    function setupMobileObserver(){
-      if (observer) return;
-      if (!('IntersectionObserver' in window)) return;
-      observer = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting){ setActive(entry.target.dataset.img); }
-        });
-      }, { threshold:0.6 });
-      steps.forEach(function(li){ observer.observe(li); });
-    }
-    function teardownMobileObserver(){
-      if (!observer) return;
-      observer.disconnect();
-      observer = null;
-    }
-
-    function applyModeForViewport(){
-      if (desktopQuery.matches){
-        teardownMobileObserver();
-        updateFromScrollProgress();
-      } else {
-        setupMobileObserver();
-      }
-    }
-
     window.addEventListener('scroll', function(){
-      if (!desktopQuery.matches) return;
-      if (!ticking){ requestAnimationFrame(updateFromScrollProgress); ticking = true; }
+      if (!ticking){ requestAnimationFrame(updateActiveStep); ticking = true; }
     }, { passive:true });
-    window.addEventListener('resize', function(){
-      if (desktopQuery.matches) updateFromScrollProgress();
-    });
-    if (desktopQuery.addEventListener){
-      desktopQuery.addEventListener('change', applyModeForViewport);
-    }
-
-    applyModeForViewport();
+    window.addEventListener('resize', updateActiveStep);
+    updateActiveStep();
   })();
 </script>
 </body>
