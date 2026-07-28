@@ -9,7 +9,7 @@
 <meta property="og:description" content="UX Designer | Making every tap a story. Portfolio of Sai, UI/UX Designer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#173148;
@@ -22,6 +22,7 @@
     --font-body:'Montserrat', system-ui, sans-serif;
     --max:1040px;
     --radius:14px;
+    --accent:#2f6fed;
   }
 
   *,*::before,*::after{ box-sizing:border-box; }
@@ -40,9 +41,10 @@
   section{ scroll-margin-top:110px; }
 
   .wrap{
-    max-width:var(--max);
-    margin:0 auto;
-    padding-inline:24px;
+    max-width:none;
+    margin:0;
+    padding-inline:0;
+    width:100%;
   }
 
   .pill-heading{
@@ -143,6 +145,17 @@
     align-items:center;
     justify-content:center;
     margin:auto 0;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    width:min(1100px, 130%);
+    height:min(900px, 110%);
+    background:radial-gradient(closest-side, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 40%, rgba(255,255,255,0) 75%);
+    z-index:1;
+    pointer-events:none;
   }
 
   /* ---------- warped mesh grid (reacts to cursor) ---------- */
@@ -258,37 +271,82 @@
   }
 
   /* ---------- generic section spacing ---------- */
-  .section{ padding:80px 24px; }
+  .section{ padding:80px 120px; }
   .section__head{ margin-bottom:32px; }
 
-  /* ---------- about ---------- */
+  /* ---------- about (polaroid style) ---------- */
+  .about-section{ background:#eef1fb; }
+  .about__grid{
+    display:flex;
+    align-items:center;
+    gap:80px;
+  }
+  .about__profile{
+    flex:0 0 30%;
+    max-width:340px;
+  }
+  .polaroid{
+    background:#fff;
+    padding:16px 16px 56px;
+    box-shadow:0 24px 48px rgba(23,49,72,.16);
+    transform:rotate(-4deg);
+    max-width:320px;
+    margin:0 auto;
+  }
+  .polaroid__photo{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    overflow:hidden;
+    background:linear-gradient(135deg,#e8e0ff,#cfe7ff);
+  }
+  .polaroid__photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .polaroid__fallback{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-size:14px;
+    font-weight:500;
+    color:rgba(23,49,72,.5);
+  }
   .about__text{
+    flex:1 1 60%;
+  }
+  .about__heading{
+    font-size:clamp(34px,5vw,60px);
+    font-weight:800;
+    color:var(--navy);
+    line-height:1.05;
+    margin:0 0 28px;
+  }
+  .about__paras{
     display:flex;
     flex-direction:column;
-    gap:28px;
-    font-size:16px;
-    font-weight:300;
-    line-height:1.7;
-    margin-bottom:32px;
+    gap:22px;
+    font-size:clamp(16px,1.6vw,18px);
+    font-weight:400;
+    line-height:1.75;
+    color:rgba(23,49,72,.65);
   }
-  .about__visual{
-    width:100%;
-    aspect-ratio:862/460;
-    border-radius:var(--radius);
-    overflow:hidden;
-    position:relative;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,.9) 0, transparent 2px),
-      radial-gradient(circle at 70% 15%, rgba(255,255,255,.7) 0, transparent 1.6px),
-      radial-gradient(circle at 40% 70%, rgba(255,255,255,.8) 0, transparent 1.6px),
-      radial-gradient(circle at 85% 55%, rgba(255,255,255,.6) 0, transparent 1.4px),
-      radial-gradient(circle at 55% 85%, rgba(255,255,255,.7) 0, transparent 1.4px),
-      radial-gradient(circle at 10% 85%, rgba(255,255,255,.5) 0, transparent 1.4px),
-      radial-gradient(60% 80% at 30% 40%, #7c6cf0 0%, transparent 60%),
-      radial-gradient(50% 70% at 75% 30%, #e0609a 0%, transparent 60%),
-      radial-gradient(60% 80% at 65% 75%, #3aa0c8 0%, transparent 60%),
-      linear-gradient(135deg, #0c1230, #1a1440 60%, #0c1230);
-    background-size:180px 180px,220px 220px,200px 200px,190px 190px,210px 210px,180px 180px, 100% 100%,100% 100%,100% 100%,100% 100%;
+  .about__signature{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:44px;
+    color:var(--accent);
+    margin-top:32px;
+  }
+  @media (max-width:800px){
+    .about__grid{ flex-direction:column; gap:40px; align-items:stretch; }
+    .about__profile{ flex:0 0 auto; max-width:280px; margin:0 auto; }
   }
 
   /* ---------- experience ---------- */
@@ -343,9 +401,9 @@
     position:relative;
     color:var(--white);
     overflow:hidden;
-    padding:100px 24px;
+    padding:100px 120px;
     background:
-      radial-gradient(circle at 15% 20%, rgba(124,108,240,.35), transparent 45%),
+      radial-gradient(circle at 15% 20%, rgba(110,180,240,.35), transparent 45%),
       radial-gradient(circle at 85% 15%, rgba(224,96,154,.3), transparent 45%),
       radial-gradient(circle at 50% 90%, rgba(58,160,200,.3), transparent 50%),
       linear-gradient(180deg,#060912,#0d1326 55%,#060912);
@@ -485,12 +543,12 @@
   .contact{
     position:relative;
     overflow:hidden;
-    padding:100px 24px 80px;
+    padding:100px 120px 80px;
   }
   .contact__inner{
     position:relative;
-    max-width:var(--max);
-    margin:0 auto;
+    max-width:none;
+    margin:0;
   }
   .contact h2{ margin:0; font-weight:400; font-size:clamp(20px,3vw,28px); }
   .contact h2.bold{ font-weight:700; font-size:clamp(30px,6vw,48px); margin-top:8px; }
@@ -538,7 +596,6 @@
     .nav__links{ display:none; }
     .exp-row{ flex-direction:column; align-items:flex-start; gap:8px; }
     .exp-meta{ text-align:left; }
-    .about__visual{ order:2; }
     .beyond__stage{ aspect-ratio:auto; padding:8px 0 32px; }
     .beyond__content{ position:static; transform:none; margin:0 auto 32px; max-width:100%; }
     .beyond__badges{
@@ -551,9 +608,16 @@
     }
     .beyond__badge{ position:static !important; width:auto !important; height:auto !important; }
   }
+  @media (max-width:960px){
+    .section{ padding:64px 40px; }
+    .beyond{ padding:80px 40px; }
+    .contact{ padding:80px 40px 60px; }
+  }
   @media (max-width:640px){
     .hero{ padding:20px; }
     .section{ padding:56px 20px; }
+    .beyond{ padding:64px 20px; }
+    .contact{ padding:64px 20px 48px; }
     .work-card{ padding:40px 20px; }
     .contact__links{ margin:32px 0; }
   }
@@ -609,15 +673,28 @@
   </div>
 </div>
 
-<section class="section" id="about">
+<section class="section about-section" id="about">
   <div class="wrap">
-    <div class="section__head"><span class="pill-heading">About Me</span></div>
-    <div class="about__text">
-      <p>I’m Sai, a UI/UX Designer driven by curiosity and a passion for simplifying complexity. I enjoy designing digital experiences that feel intuitive, purposeful, and easy to navigate whether it's a learning platform, an enterprise dashboard, or a research-driven product. What excites me most about design is the challenge of turning complex systems into experiences that people can understand and enjoy using.</p>
-      <p>My journey as a designer is fueled by constant exploration. I'm always learning, experimenting, and looking for better ways to solve problems through thoughtful design. I believe great products are built at the intersection of user needs, business goals, and attention to detail.</p>
-      <p>Beyond design, you'll usually find me immersed in online games, watching films, or revisiting the legendary performances of Michael Jackson. These interests continuously inspire my creativity, storytelling, and perspective on creating engaging experiences. Currently, I'm exploring the future of learning, technology, and digital products one design challenge at a time.</p>
+    <div class="about__grid">
+      <div class="about__profile">
+        <div class="polaroid">
+          <div class="polaroid__photo">
+            <!-- Drop your photo alongside this file and update the src below -->
+            <img src="ChatGPT Image Jul 15, 2026, 04_23_27 PM.png" alt="Sai, UI/UX Designer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="polaroid__fallback" style="display:none;">Add your photo here<br>(sai-photo.jpg)</div>
+          </div>
+        </div>
+      </div>
+      <div class="about__text">
+        <h2 class="about__heading">a little about myself</h2>
+        <div class="about__paras">
+          <p>I'm Sai, a UI/UX Designer passionate about creating intuitive, user-centered digital experiences that simplify complexity. I enjoy solving real-world problems through thoughtful design, whether it's for learning platforms, enterprise products, or modern web applications.</p>
+          <p>I'm driven by curiosity and believe that great products are built where user needs, business goals, and attention to detail come together. I'm constantly learning, experimenting with new ideas, and exploring how design and technology can create meaningful experiences.</p>
+          <p>Beyond design, I enjoy playing online games, watching movies, and finding inspiration in the creativity and performances of Michael Jackson. As I continue growing as a designer, my goal is to build products that are not only visually appealing but also impactful, accessible, and enjoyable to use.</p>
+        </div>
+        <div class="about__signature">Sai.</div>
+      </div>
     </div>
-    <div class="about__visual" role="img" aria-label="Placeholder cosmic visual — swap for your own image"></div>
   </div>
 </section>
 
