@@ -507,28 +507,22 @@
     position:relative;
     color:var(--white);
     overflow:hidden;
-    padding:100px 120px;
-    background:
-      radial-gradient(circle at 15% 20%, rgba(110,180,240,.35), transparent 45%),
-      radial-gradient(circle at 85% 15%, rgba(224,96,154,.3), transparent 45%),
-      radial-gradient(circle at 50% 90%, rgba(58,160,200,.3), transparent 50%),
-      linear-gradient(180deg,#060912,#0d1326 55%,#060912);
+    padding:48px 120px;
+    background-repeat:no-repeat;
+    background-image: url("Beyond the interface.png");
+    background-position: center;
+    background-size: cover;
   }
   .beyond::before{
     content:"";
     position:absolute; inset:0;
-    background-image:
-      radial-gradient(rgba(255,255,255,.9) 1px, transparent 1.4px),
-      radial-gradient(rgba(255,255,255,.6) 1px, transparent 1.2px);
-    background-size:160px 160px, 90px 90px;
-    background-position:0 0, 40px 60px;
-    opacity:.5;
+    background:rgba(0,0,0,.36);
   }
   .beyond__stage{
     position:relative;
     max-width:1280px;
     margin:0 auto;
-    aspect-ratio:1280/832;
+    aspect-ratio:1280/620;
   }
   .beyond__content{
     position:absolute;
@@ -1116,6 +1110,15 @@
       window.addEventListener('resize', measureTravel);
 
       var expImg = document.getElementById('polaroidImgExp');
+      var baseRotate = -4;
+      var expTiltX = 0, expTiltY = 0, expScale = 1;
+      var expLanded = false;
+      var maxExpTilt = 14;
+
+      function applyPolaroidTransform(){
+        polaroid.style.transform =
+          'rotate(' + baseRotate.toFixed(2) + 'deg) rotateX(' + expTiltX.toFixed(2) + 'deg) rotateY(' + expTiltY.toFixed(2) + 'deg) scale(' + expScale.toFixed(3) + ')';
+      }
 
       var travelTicking = false;
       function updateTravel(){
@@ -1128,10 +1131,12 @@
 
         var left = aboutRect.left + (expRect.left - aboutRect.left) * progress;
         var top = aboutRect.top + (expRect.top - aboutRect.top) * progress;
-        var rotate = -4 + 8 * progress;
+        baseRotate = -4 + 8 * progress;
 
         scrollPhoto.style.transform = 'translate(' + left.toFixed(1) + 'px, ' + top.toFixed(1) + 'px)';
-        polaroid.style.transform = 'rotate(' + rotate.toFixed(2) + 'deg)';
+        expLanded = progress >= 0.7;
+        if (!expLanded){ expTiltX = 0; expTiltY = 0; expScale = 1; }
+        applyPolaroidTransform();
 
         // crossfade to the "experience" photo once the card has (mostly) arrived
         if (expImg){
@@ -1147,6 +1152,22 @@
       }, { passive:true });
       window.addEventListener('resize', function(){ requestAnimationFrame(updateTravel); });
       updateTravel();
+
+      // --- experience: landed card tilts in 3D toward the cursor, same as About ---
+      expSlot.addEventListener('mousemove', function(e){
+        if (!expLanded) return;
+        var r = expSlot.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        expTiltX = -y * maxExpTilt;
+        expTiltY = x * maxExpTilt;
+        expScale = 1.04;
+        applyPolaroidTransform();
+      });
+      expSlot.addEventListener('mouseleave', function(){
+        expTiltX = 0; expTiltY = 0; expScale = 1;
+        applyPolaroidTransform();
+      });
     }
 
     // --- hero: googly eyes follow the cursor ---
