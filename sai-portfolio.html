@@ -625,29 +625,45 @@
   .b9{ left:77.9%;  top:39.6%;  width:180px; height:61px; }
   .b9 span{ --tilt:6.13deg; }
 
-  /* ---------- approach ---------- */
-  .approach{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:60px;
-    flex-wrap:wrap;
-  }
-  .approach h2{
+  /* ---------- approach: scroll-driven storytelling (pinned) ---------- */
+  .approach-head{ padding:60px 120px 60px; }
+  .approach-head h2{
     font-size:clamp(28px,5vw,48px);
     font-weight:600;
     display:flex;
     flex-wrap:wrap;
     gap:12px;
     align-items:center;
-    margin:0 0 60px;
+    margin:0;
   }
-  .approach h2 .highlight{
+  .approach-head h2 .highlight{
     background:var(--navy);
     color:var(--white);
     padding:4px 14px;
   }
-  .approach__list{
+  /* the wrapper is deliberately much taller than one viewport (6 steps worth
+     of scroll distance) so the inner panel can pin in place while the user
+     scrolls through it, then release naturally once its content ends */
+  .scrolly{
+    position:relative;
+    height:280vh;
+  }
+  .scrolly__pin{
+    position:sticky;
+    top:80px;
+    display:flex;
+    align-items:flex-start;
+  }
+  .scrolly__inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:80px;
+    width:100%;
+    padding:0 120px;
+    box-sizing:border-box;
+  }
+  .scrolly__steps{
     display:flex;
     flex-direction:column;
     gap:26px;
@@ -655,41 +671,55 @@
     font-weight:500;
     flex:1 1 380px;
   }
-  /* each step gets real scroll height so scrolling the page steps through them */
-  .approach__list li{
-    min-height:60vh;
-    display:flex;
-    align-items:center;
+  .scrolly__steps li{
     color:var(--navy-50);
-    transition:color .3s ease, opacity .3s ease;
-    opacity:.55;
+    font-weight:500;
+    transition:color .4s cubic-bezier(.4,0,.2,1), font-weight .4s cubic-bezier(.4,0,.2,1), transform .4s cubic-bezier(.4,0,.2,1);
   }
-  .approach__list li:last-child{ min-height:30vh; }
-  .approach__list li.is-active{
+  .scrolly__steps li.is-active{
     color:var(--navy);
-    opacity:1;
+    font-weight:700;
   }
-  .approach__visual{
+  .scrolly__visual{
+    position:relative;
     flex:1 1 380px;
     max-width:417px;
     aspect-ratio:417/358;
     background:var(--navy);
-    border-radius:4px;
-    position:sticky;
-    top:140px;
+    border-radius:8px;
     overflow:hidden;
+    box-shadow:0 30px 60px rgba(23,49,72,.25);
   }
-  .approach__visual svg{ position:absolute; inset:0; width:100%; height:100%; }
-  .approach__img{
+  .scrolly__visual svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .scrolly__img{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
     opacity:0;
-    transition:opacity .6s ease;
+    transform:scale(1.05) translateY(16px);
+    transition:opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1);
   }
-  .approach__img.is-active{ opacity:1; }
+  .scrolly__img.is-active{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+  @media (max-width:900px){
+    .approach-head{ padding:64px 24px 0; }
+    .scrolly{ height:auto; }
+    .scrolly__pin{
+      position:static;
+      height:auto;
+      padding:40px 0;
+    }
+    .scrolly__inner{
+      flex-direction:column;
+      padding:0 24px;
+      gap:40px;
+    }
+    .scrolly__visual{ width:100%; max-width:none; }
+  }
 
   /* ---------- contact / footer ---------- */
   .contact{
@@ -910,36 +940,38 @@
   </div>
 </section>
 
-<section class="section" id="approach">
-  <div class="wrap">
-    <div class="approach">
-      <div style="flex:1 1 100%;">
-        <h2>How I Approach <span class="highlight">Design</span></h2>
-      </div>
-      <ul class="approach__list">
-        <li class="is-active" data-img="Understanding the Problem.png">Understanding the Problem</li>
-        <li data-img="Thinking Like the User.png">Thinking Like the User</li>
-        <li data-img="Exploring Insights.png">Exploring Insights</li>
-        <li data-img="Always Learning.png">Always Learning</li>
-        <li data-img="Structuring Solutions.png">Structuring Solutions</li>
-        <li data-img="Bringing Ideas to Life.png">Bringing Ideas to Life</li>
-      </ul>
-      <div class="approach__visual" aria-label="Illustration that changes as you scroll through the steps">
-        <svg viewBox="0 0 417 358" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="glow" cx="50%" cy="35%" r="65%">
-              <stop offset="0%" stop-color="#24425e"/>
-              <stop offset="100%" stop-color="#173148"/>
-            </radialGradient>
-          </defs>
-          <rect width="417" height="358" fill="url(#glow)"/>
-        </svg>
-        <img class="approach__img is-active" data-key="Understanding the Problem.png" src="Understanding the Problem.png" alt="Understanding the Problem">
-        <img class="approach__img" data-key="Thinking Like the User.png" src="Thinking Like the User.png" alt="Thinking Like the User">
-        <img class="approach__img" data-key="Exploring Insights.png" src="Exploring Insights.png" alt="Exploring Insights">
-        <img class="approach__img" data-key="Always Learning.png" src="Always Learning.png" alt="Always Learning">
-        <img class="approach__img" data-key="Structuring Solutions.png" src="Structuring Solutions.png" alt="Structuring Solutions">
-        <img class="approach__img" data-key="Bringing Ideas to Life.png" src="Bringing Ideas to Life.png" alt="Bringing Ideas to Life">
+<section id="approach">
+  <div class="approach-head">
+    <h2>How I Approach <span class="highlight">Design</span></h2>
+  </div>
+  <div class="scrolly">
+    <div class="scrolly__pin">
+      <div class="scrolly__inner">
+        <ul class="scrolly__steps">
+          <li class="is-active" data-img="Understanding the Problem.png">Understanding the Problem</li>
+          <li data-img="Thinking Like the User.png">Thinking Like the User</li>
+          <li data-img="Exploring Insights.png">Exploring Insights</li>
+          <li data-img="Always Learning.png">Always Learning</li>
+          <li data-img="Structuring Solutions.png">Structuring Solutions</li>
+          <li data-img="Bringing Ideas to Life.png">Bringing Ideas to Life</li>
+        </ul>
+        <div class="scrolly__visual" aria-label="Illustration that changes as you scroll through the steps">
+          <svg viewBox="0 0 417 358" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <radialGradient id="glow" cx="50%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#24425e"/>
+                <stop offset="100%" stop-color="#173148"/>
+              </radialGradient>
+            </defs>
+            <rect width="417" height="358" fill="url(#glow)"/>
+          </svg>
+          <img class="scrolly__img is-active" data-key="Understanding the Problem.png" src="Understanding the Problem.png" alt="Understanding the Problem">
+          <img class="scrolly__img" data-key="Thinking Like the User.png" src="Thinking Like the User.png" alt="Thinking Like the User">
+          <img class="scrolly__img" data-key="Exploring Insights.png" src="Exploring Insights.png" alt="Exploring Insights">
+          <img class="scrolly__img" data-key="Always Learning.png" src="Always Learning.png" alt="Always Learning">
+          <img class="scrolly__img" data-key="Structuring Solutions.png" src="Structuring Solutions.png" alt="Structuring Solutions">
+          <img class="scrolly__img" data-key="Bringing Ideas to Life.png" src="Bringing Ideas to Life.png" alt="Bringing Ideas to Life">
+        </div>
       </div>
     </div>
   </div>
@@ -1319,25 +1351,74 @@
     });
   })();
 
-  // --- approach: right-side image changes as each step scrolls into view ---
+  // --- approach: pinned scroll-driven storytelling ---
   (function(){
-    var steps = document.querySelectorAll('.approach__list li');
-    var images = document.querySelectorAll('.approach__img');
-    if (!steps.length || !images.length) return;
+    var wrapper = document.querySelector('.scrolly');
+    var steps = document.querySelectorAll('.scrolly__steps li');
+    var images = document.querySelectorAll('.scrolly__img');
+    if (!wrapper || !steps.length || !images.length) return;
 
     function setActive(key){
       steps.forEach(function(li){ li.classList.toggle('is-active', li.dataset.img === key); });
       images.forEach(function(img){ img.classList.toggle('is-active', img.dataset.key === key); });
     }
 
-    if ('IntersectionObserver' in window){
-      var observer = new IntersectionObserver(function(entries){
+    var desktopQuery = window.matchMedia('(min-width:901px)');
+    var ticking = false;
+
+    // Desktop: the wrapper is 600vh tall and its inner panel is pinned via
+    // position:sticky, so the whole scroll distance through the wrapper maps
+    // directly to "which of the 6 steps is active right now".
+    function updateFromScrollProgress(){
+      var r = wrapper.getBoundingClientRect();
+      var span = r.height - window.innerHeight;
+      var progress = span > 0 ? (-r.top) / span : 0;
+      progress = Math.min(1, Math.max(0, progress));
+      var index = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+      setActive(steps[index].dataset.img);
+      ticking = false;
+    }
+
+    // Mobile: content isn't pinned, steps flow normally in the page, so use
+    // IntersectionObserver on each step as it physically scrolls into view.
+    var observer = null;
+    function setupMobileObserver(){
+      if (observer) return;
+      if (!('IntersectionObserver' in window)) return;
+      observer = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
           if (entry.isIntersecting){ setActive(entry.target.dataset.img); }
         });
-      }, { threshold: 0.6 });
+      }, { threshold:0.6 });
       steps.forEach(function(li){ observer.observe(li); });
     }
+    function teardownMobileObserver(){
+      if (!observer) return;
+      observer.disconnect();
+      observer = null;
+    }
+
+    function applyModeForViewport(){
+      if (desktopQuery.matches){
+        teardownMobileObserver();
+        updateFromScrollProgress();
+      } else {
+        setupMobileObserver();
+      }
+    }
+
+    window.addEventListener('scroll', function(){
+      if (!desktopQuery.matches) return;
+      if (!ticking){ requestAnimationFrame(updateFromScrollProgress); ticking = true; }
+    }, { passive:true });
+    window.addEventListener('resize', function(){
+      if (desktopQuery.matches) updateFromScrollProgress();
+    });
+    if (desktopQuery.addEventListener){
+      desktopQuery.addEventListener('change', applyModeForViewport);
+    }
+
+    applyModeForViewport();
   })();
 </script>
 </body>
