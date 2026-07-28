@@ -284,12 +284,16 @@
   .about__profile{
     flex:0 0 30%;
     max-width:340px;
+    perspective:1200px;
   }
   .polaroid{
     background:#fff;
     padding:16px 16px 56px;
     box-shadow:0 24px 48px rgba(23,49,72,.16);
     transform:rotate(-4deg);
+    transform-style:preserve-3d;
+    transition:transform .15s ease-out;
+    will-change:transform;
     max-width:320px;
     margin:0 auto;
   }
@@ -953,6 +957,23 @@
         requestAnimationFrame(frame);
       }
       requestAnimationFrame(frame);
+    }
+
+    // --- about me: polaroid tilts in 3D toward the cursor ---
+    var aboutProfile = document.querySelector('.about__profile');
+    if (aboutProfile) {
+      var polaroid = aboutProfile.querySelector('.polaroid');
+      var maxTilt = 16;
+      aboutProfile.addEventListener('mousemove', function(e){
+        var r = aboutProfile.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        polaroid.style.transform =
+          'rotate(-4deg) rotateX(' + (-y * maxTilt).toFixed(2) + 'deg) rotateY(' + (x * maxTilt).toFixed(2) + 'deg) scale(1.04)';
+      });
+      aboutProfile.addEventListener('mouseleave', function(){
+        polaroid.style.transform = 'rotate(-4deg)';
+      });
     }
 
     // --- hero: googly eyes follow the cursor ---
