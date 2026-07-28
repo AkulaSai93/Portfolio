@@ -215,7 +215,7 @@
   .wave-emoji{
     display:inline-block;
     transform-origin:70% 70%;
-    animation:wave 5s infinite;
+    animation:wave 3s infinite;
   }
   @keyframes wave{
     0%{ transform:rotate(0deg); }
@@ -635,11 +635,21 @@
     gap:12px;
     align-items:center;
     margin:0;
+    perspective:800px;
   }
   .approach-head h2 .highlight{
     background:var(--navy);
     color:var(--white);
     padding:4px 14px;
+    display:inline-block;
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+    animation:approachFlip 2s ease-in-out infinite;
+  }
+  @keyframes approachFlip{
+    0%, 70%{ transform:rotateY(0deg); }
+    85%{ transform:rotateY(180deg); }
+    100%{ transform:rotateY(360deg); }
   }
   .scrolly{ padding:60px 0 80px; }
   .scrolly__pin{
@@ -666,11 +676,20 @@
   .scrolly__steps li{
     color:var(--navy-50);
     font-weight:500;
-    transition:color .4s cubic-bezier(.4,0,.2,1), font-weight .4s cubic-bezier(.4,0,.2,1), transform .4s cubic-bezier(.4,0,.2,1);
+    cursor:pointer;
+    width:fit-content;
+    padding-left:16px;
+    border-left:3px solid transparent;
+    transition:color .4s cubic-bezier(.4,0,.2,1), font-weight .4s cubic-bezier(.4,0,.2,1), transform .4s cubic-bezier(.4,0,.2,1), border-color .3s ease, padding-left .3s ease;
+  }
+  .scrolly__steps li:hover{
+    color:var(--navy);
+    padding-left:22px;
   }
   .scrolly__steps li.is-active{
     color:var(--navy);
     font-weight:700;
+    border-left-color:var(--navy);
   }
   .scrolly__visual{
     position:relative;
@@ -1343,7 +1362,7 @@
     });
   })();
 
-  // --- approach: compact section, highlight/image driven by scroll position ---
+  // --- approach: compact section, highlight/image driven by clicking a step ---
   (function(){
     var wrapper = document.querySelector('.scrolly');
     var steps = document.querySelectorAll('.scrolly__steps li');
@@ -1355,27 +1374,10 @@
       images.forEach(function(img){ img.classList.toggle('is-active', img.dataset.key === key); });
     }
 
-    var ticking = false;
-    // The section is compact, so progress is measured over a fixed window
-    // around the vertical middle of the viewport: progress = 0 once the
-    // section's top has scrolled up to the middle of the screen, progress = 1
-    // once its bottom has scrolled up past the middle — giving a smooth
-    // step-by-step change centered on the middle of the viewport.
-    function updateActiveStep(){
-      var r = wrapper.getBoundingClientRect();
-      var mid = window.innerHeight / 2;
-      var span = r.height * 2; // >1 slows the step transition relative to scroll speed
-      var progress = span > 0 ? (mid - r.top) / span : 0;
-      progress = Math.min(1, Math.max(0, progress));
-      var index = Math.min(steps.length - 1, Math.floor(progress * steps.length));
-      setActive(steps[index].dataset.img);
-      ticking = false;
-    }
-    window.addEventListener('scroll', function(){
-      if (!ticking){ requestAnimationFrame(updateActiveStep); ticking = true; }
-    }, { passive:true });
-    window.addEventListener('resize', updateActiveStep);
-    updateActiveStep();
+    steps.forEach(function(li){
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){ setActive(li.dataset.img); });
+    });
   })();
 </script>
 </body>
