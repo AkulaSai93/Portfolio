@@ -479,6 +479,56 @@
     .timeline-card{ padding:20px 22px; }
   }
 
+  /* ---------- design gallery ---------- */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .gallery-card{
+    position:relative;
+    aspect-ratio:4/3;
+    border-radius:12px;
+    overflow:hidden;
+    background:linear-gradient(135deg, #1f3b56, #173148);
+    box-shadow:0 20px 40px rgba(23,49,72,.15);
+    transition:transform .35s cubic-bezier(.4,0,.2,1), box-shadow .35s cubic-bezier(.4,0,.2,1);
+  }
+  .gallery-card img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .gallery-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 28px 56px rgba(23,49,72,.25);
+  }
+  .gallery-card__caption{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:16px 18px;
+    background:linear-gradient(to top, rgba(0,0,0,.55), transparent);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .gallery-card:hover .gallery-card__caption{
+    opacity:1;
+    transform:translateY(0);
+  }
+  @media (max-width:900px){
+    .gallery-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+  @media (max-width:600px){
+    .gallery-grid{ grid-template-columns:1fr; }
+  }
+
   /* ---------- recent work ---------- */
   .work-card{
     display:block;
@@ -773,16 +823,37 @@
     background:rgba(255,255,255,.6);
     transition:background .2s ease, transform .2s ease;
   }
-  .contact__social a:hover{ background:#fff; transform:translateY(-2px); }
+  .contact__social a:hover{ background:#fff; transform:translateY(-2px) scale(1.08); }
   .contact__social svg{ width:20px; height:20px; }
 
-  footer.credit{
-    text-align:center;
-    font-size:13px;
-    color:var(--navy-50);
-    padding:20px;
-    background:var(--bg);
+  /* soft ambient glow so the closing section doesn't feel flat */
+  .contact::before{
+    content:'';
+    position:absolute;
+    top:-120px; right:-120px;
+    width:420px; height:420px;
+    background:radial-gradient(circle, rgba(23,49,72,.12), transparent 70%);
+    border-radius:50%;
+    animation:contactGlow 6s ease-in-out infinite;
+    pointer-events:none;
   }
+  @keyframes contactGlow{
+    0%,100%{ transform:translate(0,0) scale(1); opacity:.7; }
+    50%{ transform:translate(-30px,30px) scale(1.15); opacity:1; }
+  }
+
+  /* scroll-reveal for headings/links/socials */
+  .contact-reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);
+  }
+  .contact-reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  .contact__link{
+    transition:transform .25s ease, color .25s ease;
+  }
+  .contact__link:hover{ transform:translateX(6px); color:var(--navy); }
 
   /* ---------- responsive ---------- */
   @media (max-width:960px){
@@ -931,6 +1002,39 @@
   </div>
 </section>
 
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="section__head"><span class="pill-heading">Design Gallery</span></div>
+    <!-- Replace each img src below with your own shots. Duplicate the .gallery-card block for more. -->
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <img src="Understanding the Problem.png" alt="Design shot 1">
+        <div class="gallery-card__caption">Project Snapshot 1</div>
+      </div>
+      <div class="gallery-card">
+        <img src="Thinking Like the User.png" alt="Design shot 2">
+        <div class="gallery-card__caption">Project Snapshot 2</div>
+      </div>
+      <div class="gallery-card">
+        <img src="Exploring Insights.png" alt="Design shot 3">
+        <div class="gallery-card__caption">Project Snapshot 3</div>
+      </div>
+      <div class="gallery-card">
+        <img src="Always Learning.png" alt="Design shot 4">
+        <div class="gallery-card__caption">Project Snapshot 4</div>
+      </div>
+      <div class="gallery-card">
+        <img src="Structuring Solutions.png" alt="Design shot 5">
+        <div class="gallery-card__caption">Project Snapshot 5</div>
+      </div>
+      <div class="gallery-card">
+        <img src="Bringing Ideas to Life.png" alt="Design shot 6">
+        <div class="gallery-card__caption">Project Snapshot 6</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="beyond" id="beyond">
   <div class="beyond__stage">
     <div class="beyond__badges">
@@ -990,11 +1094,11 @@
 
 <section class="contact grid-bg" id="contact">
   <div class="contact__inner">
-    <h2>Let's build the</h2>
-    <h2 class="bold">Next great mission</h2>
-    <h2 class="bold">together</h2>
+    <h2 class="contact-reveal" style="transition-delay:0s">Let's build the</h2>
+    <h2 class="bold contact-reveal" style="transition-delay:.08s">Next great mission</h2>
+    <h2 class="bold contact-reveal" style="transition-delay:.16s">together</h2>
 
-    <div class="contact__links">
+    <div class="contact__links contact-reveal" style="transition-delay:.28s">
       <a class="contact__link" href="mailto:saiakula620@gmail.com">
         <svg viewBox="0 0 24 24" fill="none" stroke="#173148" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
         saiakula620@gmail.com
@@ -1005,9 +1109,9 @@
       </a>
     </div>
 
-    <hr class="contact__divider">
+    <hr class="contact__divider contact-reveal" style="transition-delay:.36s">
 
-    <div class="contact__social">
+    <div class="contact__social contact-reveal" style="transition-delay:.44s">
       <a href="#" title="Add your LinkedIn URL" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H4v11h2.94v-11zM5.47 7.2a1.7 1.7 0 100-3.4 1.7 1.7 0 000 3.4zM20 13.3c0-3-1.6-4.4-3.75-4.4-1.73 0-2.5.95-2.94 1.62V8.5H10.4c.04.86 0 11 0 11h2.94v-6.14c0-.33.02-.66.12-.9.26-.66.86-1.34 1.87-1.34 1.32 0 1.85 1 1.85 2.47V19.5H20V13.3z"/></svg>
       </a>
@@ -1021,10 +1125,7 @@
   </div>
 </section>
 
-<footer class="credit">Designed &amp; built from Figma · © <span id="year"></span> Sai</footer>
-
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
 
   // --- hero: floating chips/arrows converge toward center as you scroll ---
   var heroEl = document.getElementById('hero');
@@ -1041,6 +1142,7 @@
     }, { passive:true });
     window.addEventListener('resize', updateHeroScroll);
     updateHeroScroll();
+
 
     // --- hero: warped mesh grid that bulges away from the cursor ---
     var canvas = heroEl.querySelector('.hero__mesh');
@@ -1378,6 +1480,25 @@
       li.style.cursor = 'pointer';
       li.addEventListener('click', function(){ setActive(li.dataset.img); });
     });
+  })();
+
+  // --- contact/footer: reveal content as it scrolls into view ---
+  (function(){
+    var els = document.querySelectorAll('.contact-reveal');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.2 });
+    els.forEach(function(el){ io.observe(el); });
   })();
 </script>
 </body>
