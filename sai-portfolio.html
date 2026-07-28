@@ -507,7 +507,7 @@
     position:relative;
     color:var(--white);
     overflow:hidden;
-    padding:48px 120px;
+    padding:60px 120px;
     background-repeat:no-repeat;
     background-image: url("Beyond the interface.png");
     background-position: center;
@@ -543,11 +543,23 @@
     gap:12px;
     align-items:center;
     justify-content:center;
+    perspective:800px;
   }
+  /* 3D parallax: tilts and lifts toward the cursor as it moves across the
+     section, driven by JS (see beyond parallax script) — translateZ gives
+     it real depth/shadow so it visually pops off the page */
   .beyond h2 .highlight{
     background:var(--white);
     color:#000;
     padding:4px 14px;
+    display:inline-block;
+    transform-style:preserve-3d;
+    transition:transform .15s ease-out, box-shadow .15s ease-out;
+    box-shadow:0 0 0 rgba(0,0,0,0);
+    will-change:transform;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .beyond h2 .highlight{ transition:none; }
   }
   .beyond__content p{
     font-size:clamp(16px,2.4vw,24px);
@@ -565,7 +577,17 @@
     display:flex;
     align-items:center;
     justify-content:center;
+    touch-action:none;
+    cursor:grab;
+    z-index:1;
   }
+  .beyond__badge.is-dragging{
+    cursor:grabbing;
+    z-index:5;
+  }
+  /* same exact Figma position and size as before — but now the pill is a
+     playful draggable toy: click/tap and drag it anywhere on the section,
+     it keeps its tilt while you move it, and lets go wherever you drop it */
   .beyond__badge span{
     display:inline-flex;
     background:var(--yellow);
@@ -575,26 +597,33 @@
     padding:10px 20px;
     border-radius:100px;
     white-space:nowrap;
+    transform:rotate(var(--tilt, 0deg));
+    transition:box-shadow .2s ease;
+    user-select:none;
+    pointer-events:none;
+  }
+  .beyond__badge.is-dragging span{
+    box-shadow:0 12px 28px rgba(0,0,0,.35);
   }
   /* exact positions/rotations lifted from the Figma dev-mode export (1280x832 canvas) */
   .b1{ left:8.05%;  top:37.66%; width:110px; height:85px; }
-  .b1 span{ transform:rotate(-27.72deg); }
+  .b1 span{ --tilt:-27.72deg; }
   .b2{ left:14.4%;  top:19.42%; width:216px; height:64px; }
-  .b2 span{ transform:rotate(6.05deg); }
+  .b2 span{ --tilt:6.05deg; }
   .b3{ left:39.5%;  top:16.66%; width:188px; height:60px; }
-  .b3 span{ transform:rotate(-5.63deg); }
+  .b3 span{ --tilt:-5.63deg; }
   .b4{ left:62%;    top:16.35%; width:229px; height:94px; }
-  .b4 span{ transform:rotate(-13.74deg); }
+  .b4 span{ --tilt:-13.74deg; }
   .b5{ left:69%;    top:68.9%;  width:207px; height:108px; }
-  .b5 span{ transform:rotate(-19.52deg); }
+  .b5 span{ --tilt:-19.52deg; }
   .b6{ left:10.7%;  top:68.6%;  width:136px; height:59px; }
-  .b6 span{ transform:rotate(7.54deg); }
+  .b6 span{ --tilt:7.54deg; }
   .b7{ left:28.1%;  top:75.8%;  width:204px; height:65px; }
-  .b7 span{ transform:rotate(-6.81deg); }
+  .b7 span{ --tilt:-6.81deg; }
   .b8{ left:50.4%;  top:74.7%;  width:155px; height:60px; }
-  .b8 span{ transform:rotate(-6.81deg); }
+  .b8 span{ --tilt:-6.81deg; }
   .b9{ left:77.9%;  top:39.6%;  width:180px; height:61px; }
-  .b9 span{ transform:rotate(6.13deg); }
+  .b9 span{ --tilt:6.13deg; }
 
   /* ---------- approach ---------- */
   .approach{
@@ -626,18 +655,41 @@
     font-weight:500;
     flex:1 1 380px;
   }
-  .approach__list li:first-child{ color:var(--navy); }
-  .approach__list li:not(:first-child){ color:var(--navy-50); }
+  /* each step gets real scroll height so scrolling the page steps through them */
+  .approach__list li{
+    min-height:60vh;
+    display:flex;
+    align-items:center;
+    color:var(--navy-50);
+    transition:color .3s ease, opacity .3s ease;
+    opacity:.55;
+  }
+  .approach__list li:last-child{ min-height:30vh; }
+  .approach__list li.is-active{
+    color:var(--navy);
+    opacity:1;
+  }
   .approach__visual{
     flex:1 1 380px;
     max-width:417px;
     aspect-ratio:417/358;
     background:var(--navy);
     border-radius:4px;
-    position:relative;
+    position:sticky;
+    top:140px;
     overflow:hidden;
   }
   .approach__visual svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .approach__img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .approach__img.is-active{ opacity:1; }
 
   /* ---------- contact / footer ---------- */
   .contact{
@@ -841,15 +893,15 @@
 <section class="beyond" id="beyond">
   <div class="beyond__stage">
     <div class="beyond__badges">
-      <div class="beyond__badge b1"><span>Gamer</span></div>
-      <div class="beyond__badge b2"><span>Michael Jackson Fan</span></div>
-      <div class="beyond__badge b3"><span>Always Exploring</span></div>
-      <div class="beyond__badge b4"><span>Orbiting Around Ideas</span></div>
-      <div class="beyond__badge b5"><span>Inspired by Origami</span></div>
-      <div class="beyond__badge b6"><span>AI Explorer</span></div>
-      <div class="beyond__badge b7"><span>Weekend Cricketer</span></div>
-      <div class="beyond__badge b8"><span>Biryani Lover</span></div>
-      <div class="beyond__badge b9"><span>Always Iterating</span></div>
+      <div class="beyond__badge b1"><span style="--tilt:-27.72deg;">Gamer</span></div>
+      <div class="beyond__badge b2"><span style="--tilt:6.05deg;">Michael Jackson Fan</span></div>
+      <div class="beyond__badge b3"><span style="--tilt:-5.63deg;">Always Exploring</span></div>
+      <div class="beyond__badge b4"><span style="--tilt:-13.74deg;">Orbiting Around Ideas</span></div>
+      <div class="beyond__badge b5"><span style="--tilt:-19.52deg;">Inspired by Origami</span></div>
+      <div class="beyond__badge b6"><span style="--tilt:7.54deg;">AI Explorer</span></div>
+      <div class="beyond__badge b7"><span style="--tilt:-6.81deg;">Weekend Cricketer</span></div>
+      <div class="beyond__badge b8"><span style="--tilt:-6.81deg;">Biryani Lover</span></div>
+      <div class="beyond__badge b9"><span style="--tilt:6.13deg;">Always Iterating</span></div>
     </div>
     <div class="beyond__content">
       <h2>Beyond the <span class="highlight">Interface</span></h2>
@@ -865,14 +917,14 @@
         <h2>How I Approach <span class="highlight">Design</span></h2>
       </div>
       <ul class="approach__list">
-        <li>Understanding the Problem</li>
-        <li>Thinking Like the User</li>
-        <li>Exploring Insights</li>
-        <li>Always Learning</li>
-        <li>Structuring Solutions</li>
-        <li>Bringing Ideas to Life</li>
+        <li class="is-active" data-img="Understanding the Problem.png">Understanding the Problem</li>
+        <li data-img="Thinking Like the User.png">Thinking Like the User</li>
+        <li data-img="Exploring Insights.png">Exploring Insights</li>
+        <li data-img="Always Learning.png">Always Learning</li>
+        <li data-img="Structuring Solutions.png">Structuring Solutions</li>
+        <li data-img="Bringing Ideas to Life.png">Bringing Ideas to Life</li>
       </ul>
-      <div class="approach__visual" aria-label="Placeholder illustration — swap for your own artwork">
+      <div class="approach__visual" aria-label="Illustration that changes as you scroll through the steps">
         <svg viewBox="0 0 417 358" preserveAspectRatio="xMidYMid slice">
           <defs>
             <radialGradient id="glow" cx="50%" cy="35%" r="65%">
@@ -881,19 +933,13 @@
             </radialGradient>
           </defs>
           <rect width="417" height="358" fill="url(#glow)"/>
-          <circle cx="150" cy="150" r="90" fill="none" stroke="#f8cc00" stroke-width="1.5" opacity=".5"/>
-          <circle cx="150" cy="150" r="55" fill="none" stroke="#ffffff" stroke-width="1" opacity=".35"/>
-          <rect x="235" y="205" width="120" height="86" rx="10" fill="#0f253a"/>
-          <rect x="248" y="218" width="94" height="8" rx="4" fill="#f8cc00"/>
-          <rect x="248" y="234" width="70" height="8" rx="4" fill="#ffffff" opacity=".7"/>
-          <rect x="248" y="250" width="82" height="8" rx="4" fill="#ffffff" opacity=".4"/>
-          <line x1="80" y1="270" x2="200" y2="150" stroke="#f8cc00" stroke-width="10" stroke-linecap="round"/>
-          <polygon points="196,146 210,132 222,144 208,158" fill="#ffffff"/>
-          <circle cx="80" cy="270" r="10" fill="#f8cc00"/>
-          <circle cx="340" cy="70" r="5" fill="#ffffff" opacity=".8"/>
-          <circle cx="70" cy="60" r="4" fill="#f8cc00" opacity=".8"/>
-          <circle cx="360" cy="150" r="3" fill="#ffffff" opacity=".6"/>
         </svg>
+        <img class="approach__img is-active" data-key="Understanding the Problem.png" src="Understanding the Problem.png" alt="Understanding the Problem">
+        <img class="approach__img" data-key="Thinking Like the User.png" src="Thinking Like the User.png" alt="Thinking Like the User">
+        <img class="approach__img" data-key="Exploring Insights.png" src="Exploring Insights.png" alt="Exploring Insights">
+        <img class="approach__img" data-key="Always Learning.png" src="Always Learning.png" alt="Always Learning">
+        <img class="approach__img" data-key="Structuring Solutions.png" src="Structuring Solutions.png" alt="Structuring Solutions">
+        <img class="approach__img" data-key="Bringing Ideas to Life.png" src="Bringing Ideas to Life.png" alt="Bringing Ideas to Life">
       </div>
     </div>
   </div>
@@ -1186,6 +1232,113 @@
       });
     }
   }
+
+  // --- beyond the interface: chips are draggable toys, play with them ---
+  (function(){
+    var badges = document.querySelectorAll('.beyond__badge');
+    if (!badges.length) return;
+    badges.forEach(function(badge){
+      var dragging = false;
+      var startX = 0, startY = 0;
+      var offsetX = 0, offsetY = 0; // accumulated drag offset from original Figma spot
+      var bounds = badge.closest('.beyond'); // the whole section, so chips can roam its full space
+
+      function setTransform(x, y, scale){
+        badge.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + scale + ')';
+      }
+
+      badge.addEventListener('pointerdown', function(e){
+        dragging = true;
+        badge.classList.add('is-dragging');
+        badge.style.transition = 'none';
+        badge.setPointerCapture(e.pointerId);
+        startX = e.clientX;
+        startY = e.clientY;
+        setTransform(offsetX, offsetY, 1.12);
+      });
+
+      badge.addEventListener('pointermove', function(e){
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        var dy = e.clientY - startY;
+        var newOffsetX = offsetX + dx;
+        var newOffsetY = offsetY + dy;
+
+        // let the chip roam the whole section, only stopping it from leaving entirely
+        if (bounds){
+          var boundsRect = bounds.getBoundingClientRect();
+          var badgeRect = badge.getBoundingClientRect();
+          var minX = boundsRect.left - badgeRect.left + offsetX - badgeRect.width * 0.3;
+          var maxX = boundsRect.right - badgeRect.right + offsetX + badgeRect.width * 0.3;
+          var minY = boundsRect.top - badgeRect.top + offsetY - badgeRect.height * 0.3;
+          var maxY = boundsRect.bottom - badgeRect.bottom + offsetY + badgeRect.height * 0.3;
+          newOffsetX = Math.min(Math.max(newOffsetX, minX), maxX);
+          newOffsetY = Math.min(Math.max(newOffsetY, minY), maxY);
+        }
+
+        setTransform(newOffsetX, newOffsetY, 1.12);
+        badge.dataset.pendingX = newOffsetX;
+        badge.dataset.pendingY = newOffsetY;
+      });
+
+      function endDrag(e){
+        if (!dragging) return;
+        dragging = false;
+        badge.classList.remove('is-dragging');
+        if (badge.dataset.pendingX !== undefined){
+          offsetX = parseFloat(badge.dataset.pendingX);
+          offsetY = parseFloat(badge.dataset.pendingY);
+        }
+        // bouncy settle: spring back down to normal scale with an overshoot easing
+        badge.style.transition = 'transform .55s cubic-bezier(.34,1.7,.4,1)';
+        setTransform(offsetX, offsetY, 1);
+        try { badge.releasePointerCapture(e.pointerId); } catch(err){}
+      }
+      badge.addEventListener('pointerup', endDrag);
+      badge.addEventListener('pointercancel', endDrag);
+    });
+  })();
+
+  // --- "Interface" highlight: 3D parallax toward the cursor ---
+  (function(){
+    var beyondSection = document.getElementById('beyond');
+    var highlight = beyondSection && beyondSection.querySelector('.beyond h2 .highlight');
+    if (!beyondSection || !highlight) return;
+    var maxTilt = 22, liftZ = 40;
+    beyondSection.addEventListener('mousemove', function(e){
+      var r = beyondSection.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      highlight.style.transform =
+        'perspective(800px) rotateX(' + (-y * maxTilt).toFixed(2) + 'deg) rotateY(' + (x * maxTilt).toFixed(2) + 'deg) translateZ(' + liftZ + 'px)';
+      highlight.style.boxShadow = '0 ' + (10 + Math.abs(y) * 20).toFixed(0) + 'px ' + (24 + Math.abs(x) * 20).toFixed(0) + 'px rgba(0,0,0,.35)';
+    });
+    beyondSection.addEventListener('mouseleave', function(){
+      highlight.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      highlight.style.boxShadow = '0 0 0 rgba(0,0,0,0)';
+    });
+  })();
+
+  // --- approach: right-side image changes as each step scrolls into view ---
+  (function(){
+    var steps = document.querySelectorAll('.approach__list li');
+    var images = document.querySelectorAll('.approach__img');
+    if (!steps.length || !images.length) return;
+
+    function setActive(key){
+      steps.forEach(function(li){ li.classList.toggle('is-active', li.dataset.img === key); });
+      images.forEach(function(img){ img.classList.toggle('is-active', img.dataset.key === key); });
+    }
+
+    if ('IntersectionObserver' in window){
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){ setActive(entry.target.dataset.img); }
+        });
+      }, { threshold: 0.6 });
+      steps.forEach(function(li){ observer.observe(li); });
+    }
+  })();
 </script>
 </body>
 </html>
