@@ -497,12 +497,13 @@
   .gallery-card{
     position:relative;
     width:360px;
-    height:400px;
+    height:290px;
     flex:0 0 auto;
     display:flex;
     flex-direction:column;
     border-radius:14px;
     overflow:hidden;
+    cursor:pointer;
     transition:transform .3s cubic-bezier(.4,0,.2,1);
   }
   .gallery-card:hover{
@@ -514,38 +515,108 @@
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:28px;
+    box-sizing:border-box;
   }
   .gallery-card__visual img{
-    width:100%;
-    height:100%;
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
     object-fit:contain;
     display:block;
+    margin:auto;
   }
   .gallery-card__body{
     flex:1 1 auto;
-    padding:16px 18px 20px;
-    background:#fff;
-    overflow:hidden;
+    padding:14px 18px;
+    background:transparent;
+    display:flex;
+    align-items:center;
+    transition:background .25s ease;
+  }
+  .gallery-card:hover .gallery-card__body{
+    background:var(--accent, #fff);
   }
   .gallery-card__body h3{
-    margin:0 0 6px;
+    margin:0;
     font-size:16px;
     font-weight:700;
     color:var(--navy);
   }
-  .gallery-card__body p{
-    margin:0;
-    font-size:12.5px;
-    line-height:1.45;
-    color:var(--navy-50);
-    display:-webkit-box;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-  }
   @media (max-width:600px){
-    .gallery-card{ width:280px; height:340px; }
+    .gallery-card{ width:280px; height:250px; }
     .gallery-card__visual{ flex-basis:180px; }
+  }
+
+  /* ---------- design gallery: hover popup with full image + description ---------- */
+  .gallery-popup{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(23,49,72,.45);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .gallery-popup.is-open{
+    opacity:1;
+    visibility:visible;
+  }
+  .gallery-popup__card{
+    width:min(640px, 90vw);
+    max-height:85vh;
+    background:#fff;
+    border-radius:16px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 40px 80px rgba(23,49,72,.35);
+    transform:scale(.96);
+    transition:transform .25s ease;
+  }
+  .gallery-popup.is-open .gallery-popup__card{
+    transform:scale(1);
+  }
+  .gallery-popup__visual{
+    flex:0 0 340px;
+    height:340px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    padding:28px;
+    box-sizing:border-box;
+  }
+  .gallery-popup__visual img{
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    display:block;
+    margin:auto;
+  }
+  .gallery-popup__body{
+    flex:0 0 auto;
+    padding:24px 28px 28px;
+  }
+  .gallery-popup__body h3{
+    margin:0 0 10px;
+    font-size:22px;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .gallery-popup__body p{
+    margin:0;
+    font-size:15px;
+    line-height:1.6;
+    color:var(--navy-50);
   }
 
   /* ---------- recent work ---------- */
@@ -1231,81 +1302,63 @@
     <!-- Auto-scrolls horizontally; pauses when the cursor is near/over a card. Swap the visual blocks for exported PNGs when ready. -->
     <div class="gallery-viewport">
       <div class="gallery-track" id="galleryTrack">
-        <div class="gallery-card">
+        <div class="gallery-card" data-bg="#f7dfa3" data-img="Jewellery ERP.png" data-title="Jewellery ERP" data-desc="Designed a modern Jewellery ERP dashboard to help store owners monitor sales, inventory, orders, profits, and customer insights from a single workspace.">
           <div class="gallery-card__visual" style="background:#f7dfa3;"><img src="Jewellery ERP.png" alt="Jewellery ERP Dashboard"></div>
-          <div class="gallery-card__body">
-            <h3>Jewellery ERP</h3>
-            <p>Designed a modern Jewellery ERP dashboard to help store owners monitor sales, inventory, orders, profits, and customer insights from a single workspace.</p>
-          </div>
+          <div class="gallery-card__body"><h3>Jewellery ERP</h3></div>
         </div>
-        <div class="gallery-card">
+        <div class="gallery-card" data-bg="#c8c9e5" data-img="RTA M-Wallet.png" data-title="RTA M-Wallet" data-desc="Redesigned the Telangana M-Wallet mobile app during a UX hackathon, improving usability, visual hierarchy, and accessibility. Secured 2nd Prize.">
           <div class="gallery-card__visual" style="background:#c8c9e5;"><img src="RTA M-Wallet.png" alt="RTA M-Wallet redesign"></div>
-          <div class="gallery-card__body">
-            <h3>RTA M-Wallet</h3>
-            <p>Redesigned the Telangana M-Wallet mobile app during a UX hackathon, improving usability, visual hierarchy, and accessibility. Secured 2nd Prize.</p>
-          </div>
+          <div class="gallery-card__body"><h3>RTA M-Wallet</h3></div>
         </div>
-        <div class="gallery-card">
+        <div class="gallery-card" data-bg="#173148" data-img="Critiquing Android Calculator App.png" data-title="Critiquing Android Calculator App" data-desc="Critiqued the Android Calculator app across iQOO, Redmi, Realme, and Oppo to identify usability, accessibility, and UI improvement opportunities, comparing layout consistency, button hierarchy, and visual feedback across each manufacturer's implementation.">
           <div class="gallery-card__visual" style="background:#173148;"><img src="Critiquing Android Calculator App.png" alt="Critiquing Android Calculator App"></div>
-          <div class="gallery-card__body">
-            <h3>Critiquing Android Calculator App</h3>
-            <p>Critiqued the Android Calculator app to identify usability, accessibility, and UI improvement opportunities.</p>
-          </div>
+          <div class="gallery-card__body"><h3>Critiquing Android Calculator App</h3></div>
         </div>
-        <div class="gallery-card">
+        <div class="gallery-card" data-bg="#c9dcf5" data-img="AI Chatbot for Healthcare.png" data-title="AI Chatbot for Healthcare" data-desc="Designed an AI-powered healthcare chatbot that guides users through symptom assessment with an intuitive conversational interface in both light and dark modes.">
           <div class="gallery-card__visual" style="background:#c9dcf5;"><img src="AI Chatbot for Healthcare.png" alt="AI Chatbot for Healthcare"></div>
-          <div class="gallery-card__body">
-            <h3>AI Chatbot for Healthcare</h3>
-            <p>Designed an AI-powered healthcare chatbot that guides users through symptom assessment with an intuitive conversational interface in both light and dark modes.</p>
-          </div>
+          <div class="gallery-card__body"><h3>AI Chatbot for Healthcare</h3></div>
         </div>
-        <div class="gallery-card">
+        <div class="gallery-card" data-bg="#bfe8e0" data-img="Community reporting app.png" data-title="Community Reporting App" data-desc="Designed a community reporting app that enables residents to report local issues, receive real-time alerts, and stay informed through a simple, intuitive mobile experience.">
           <div class="gallery-card__visual" style="background:#bfe8e0;"><img src="Community reporting app.png" alt="Community Reporting App"></div>
-          <div class="gallery-card__body">
-            <h3>Community Reporting App</h3>
-            <p>Designed a community reporting app that enables residents to report local issues, receive real-time alerts, and stay informed through a simple, intuitive mobile experience.</p>
-          </div>
+          <div class="gallery-card__body"><h3>Community Reporting App</h3></div>
         </div>
         <!-- duplicate set for seamless looping -->
-        <div class="gallery-card" aria-hidden="true">
+        <div class="gallery-card" aria-hidden="true" data-bg="#f7dfa3" data-img="Jewellery ERP.png" data-title="Jewellery ERP" data-desc="Designed a modern Jewellery ERP dashboard to help store owners monitor sales, inventory, orders, profits, and customer insights from a single workspace.">
           <div class="gallery-card__visual" style="background:#f7dfa3;"><img src="Jewellery ERP.png" alt="Jewellery ERP Dashboard"></div>
-          <div class="gallery-card__body">
-            <h3>Jewellery ERP</h3>
-            <p>Designed a modern Jewellery ERP dashboard to help store owners monitor sales, inventory, orders, profits, and customer insights from a single workspace.</p>
-          </div>
+          <div class="gallery-card__body"><h3>Jewellery ERP</h3></div>
         </div>
-        <div class="gallery-card" aria-hidden="true">
+        <div class="gallery-card" aria-hidden="true" data-bg="#c8c9e5" data-img="RTA M-Wallet.png" data-title="RTA M-Wallet" data-desc="Redesigned the Telangana M-Wallet mobile app during a UX hackathon, improving usability, visual hierarchy, and accessibility. Secured 2nd Prize.">
           <div class="gallery-card__visual" style="background:#c8c9e5;"><img src="RTA M-Wallet.png" alt="RTA M-Wallet redesign"></div>
-          <div class="gallery-card__body">
-            <h3>RTA M-Wallet</h3>
-            <p>Redesigned the Telangana M-Wallet mobile app during a UX hackathon, improving usability, visual hierarchy, and accessibility. Secured 2nd Prize.</p>
-          </div>
+          <div class="gallery-card__body"><h3>RTA M-Wallet</h3></div>
         </div>
-        <div class="gallery-card" aria-hidden="true">
+        <div class="gallery-card" aria-hidden="true" data-bg="#173148" data-img="Critiquing Android Calculator App.png" data-title="Critiquing Android Calculator App" data-desc="Critiqued the Android Calculator app across iQOO, Redmi, Realme, and Oppo to identify usability, accessibility, and UI improvement opportunities, comparing layout consistency, button hierarchy, and visual feedback across each manufacturer's implementation.">
           <div class="gallery-card__visual" style="background:#173148;"><img src="Critiquing Android Calculator App.png" alt="Critiquing Android Calculator App"></div>
-          <div class="gallery-card__body">
-            <h3>Critiquing Android Calculator App</h3>
-            <p>Critiqued the Android Calculator app to identify usability, accessibility, and UI improvement opportunities.</p>
-          </div>
+          <div class="gallery-card__body"><h3>Critiquing Android Calculator App</h3></div>
         </div>
-        <div class="gallery-card" aria-hidden="true">
+        <div class="gallery-card" aria-hidden="true" data-bg="#c9dcf5" data-img="AI Chatbot for Healthcare.png" data-title="AI Chatbot for Healthcare" data-desc="Designed an AI-powered healthcare chatbot that guides users through symptom assessment with an intuitive conversational interface in both light and dark modes.">
           <div class="gallery-card__visual" style="background:#c9dcf5;"><img src="AI Chatbot for Healthcare.png" alt="AI Chatbot for Healthcare"></div>
-          <div class="gallery-card__body">
-            <h3>AI Chatbot for Healthcare</h3>
-            <p>Designed an AI-powered healthcare chatbot that guides users through symptom assessment with an intuitive conversational interface in both light and dark modes.</p>
-          </div>
+          <div class="gallery-card__body"><h3>AI Chatbot for Healthcare</h3></div>
         </div>
-        <div class="gallery-card" aria-hidden="true">
+        <div class="gallery-card" aria-hidden="true" data-bg="#bfe8e0" data-img="Community reporting app.png" data-title="Community Reporting App" data-desc="Designed a community reporting app that enables residents to report local issues, receive real-time alerts, and stay informed through a simple, intuitive mobile experience.">
           <div class="gallery-card__visual" style="background:#bfe8e0;"><img src="Community reporting app.png" alt="Community Reporting App"></div>
-          <div class="gallery-card__body">
-            <h3>Community Reporting App</h3>
-            <p>Designed a community reporting app that enables residents to report local issues, receive real-time alerts, and stay informed through a simple, intuitive mobile experience.</p>
-          </div>
+          <div class="gallery-card__body"><h3>Community Reporting App</h3></div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<div class="gallery-popup" id="galleryPopup" aria-hidden="true">
+  <div class="gallery-popup__card">
+    <div class="gallery-popup__visual" id="galleryPopupVisual">
+      <img id="galleryPopupImg" src="" alt="">
+    </div>
+    <div class="gallery-popup__body">
+      <h3 id="galleryPopupTitle"></h3>
+      <p id="galleryPopupDesc"></p>
+    </div>
+  </div>
+</div>
 
 <section class="beyond" id="beyond">
   <div class="beyond__stage">
@@ -1785,6 +1838,60 @@
     viewport.addEventListener('touchend', function(){
       setTimeout(function(){ track.classList.remove('is-paused'); }, 800);
     }, { passive:true });
+  })();
+
+  // --- design gallery: hover a card to pop up the full image + description ---
+  (function(){
+    var cards = document.querySelectorAll('.gallery-card');
+    var popup = document.getElementById('galleryPopup');
+    if (!cards.length || !popup) return;
+
+    var popupImg = document.getElementById('galleryPopupImg');
+    var popupTitle = document.getElementById('galleryPopupTitle');
+    var popupDesc = document.getElementById('galleryPopupDesc');
+    var popupVisual = document.getElementById('galleryPopupVisual');
+    var hideTimer = null;
+
+    cards.forEach(function(card){
+      if (card.dataset.bg) card.style.setProperty('--accent', card.dataset.bg);
+    });
+
+    function openPopup(card){
+      clearTimeout(hideTimer);
+      popupImg.src = card.dataset.img || '';
+      popupImg.alt = card.dataset.title || '';
+      popupTitle.textContent = card.dataset.title || '';
+      popupDesc.textContent = card.dataset.desc || '';
+      popupVisual.style.background = card.dataset.bg || '#fff';
+      popup.classList.add('is-open');
+      popup.setAttribute('aria-hidden', 'false');
+    }
+    function closePopup(){
+      hideTimer = setTimeout(function(){
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }, 80);
+    }
+
+    cards.forEach(function(card){
+      card.addEventListener('mouseenter', function(){ openPopup(card); });
+      card.addEventListener('mouseleave', closePopup);
+      card.addEventListener('click', function(){ openPopup(card); });
+    });
+    popup.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    popup.addEventListener('mouseleave', closePopup);
+    popup.addEventListener('click', function(e){
+      if (e.target === popup){
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape'){
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+    });
   })();
 
   // --- contact/footer: reveal content as it scrolls into view ---
