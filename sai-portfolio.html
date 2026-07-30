@@ -851,7 +851,17 @@
     display:block;
     padding:0;
   }
-  .featured-card--erp2 .featured-card__mockup img{ object-fit:contain; object-position:center; }
+  .featured-card--erp2 .featured-card__text h3 .accent{ color:#00AAFF; }
+  .featured-card--erp2 .featured-card__mockup{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .featured-card--erp2 .featured-card__mockup img{
+    width:auto;
+    height:88%;
+    object-fit:contain;
+  }
 
   /* ---------- beyond the interface ---------- */
   .beyond{
@@ -1330,12 +1340,12 @@
     </div>
 
     <!-- Third featured project — add the ERP24K device-collage mockup to the Portfolio folder as "ERP24K ERP.png" (or update the src below) to complete this card -->
-    <div class="featured-card featured-card--erp featured-card--erp2 featured-card--linked" data-link="#">
+    <div class="featured-card featured-card--erp featured-card--erp2 featured-card--linked" data-link="https://www.figma.com/design/R3P5JV4zLQWLGncr7aKEul/ERP24K?node-id=1-2674&t=kAGflVp6MqgHN7xm-1">
       <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
       <div class="featured-card__content">
         <div class="featured-card__meta">Enterprise Software&nbsp;&nbsp;·&nbsp;&nbsp;ERP Application</div>
         <div class="featured-card__text">
-          <h3>ERP24K Jewellery ERP</h3>
+          <h3>ERP24K Jewellery <span class="accent">ERP</span></h3>
           <p>Designed a comprehensive ERP application that helps jewellery retailers manage inventory, billing, sales, customer relationships, accounting, and day-to-day operations from a single platform.</p>
         </div>
       </div>
