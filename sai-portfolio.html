@@ -669,7 +669,11 @@
     width:52px;
     height:52px;
     border-radius:50%;
-    background:var(--navy);
+    background:rgba(255,255,255,.18);
+    -webkit-backdrop-filter:blur(10px) saturate(140%);
+    backdrop-filter:blur(10px) saturate(140%);
+    border:1px solid rgba(255,255,255,.4);
+    box-shadow:0 8px 24px rgba(23,49,72,.18), inset 0 1px 1px rgba(255,255,255,.5);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -681,7 +685,7 @@
   .featured-card__cursor-view svg{
     width:20px;
     height:20px;
-    stroke:#fff;
+    stroke:var(--navy);
     stroke-width:2;
     fill:none;
     stroke-linecap:round;
