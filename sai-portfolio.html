@@ -660,6 +660,41 @@
     .featured-stack .featured-card{ position:relative; top:auto; }
   }
 
+  /* click-through to the live project; a "View" pill follows the cursor while hovering */
+  .featured-card--linked{ cursor:pointer; }
+  .featured-card__cursor-view{
+    position:absolute;
+    top:0; left:0;
+    z-index:5;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.6);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .featured-card__cursor-view svg{
+    width:20px;
+    height:20px;
+    stroke:#fff;
+    stroke-width:2;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .featured-card--linked:hover .featured-card__cursor-view{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  @media (max-width:960px){
+    .featured-card__cursor-view{ display:none; }
+  }
+
   /* ---------- featured work (Figma node 27:1565 / 58:3451) — positions match the 1272x500 Figma frame exactly, scaled with %/em so the layout stays proportional at any width ---------- */
   .featured-card{
     position:relative;
@@ -1241,7 +1276,8 @@
     <div class="section__head"><span class="pill-heading">Featured work</span></div>
     <!-- Featured work cards stack on scroll (like Sanjay Menon's portfolio reference): each card sticks in place and the next one slides up to cover it. -->
     <div class="featured-stack">
-    <div class="featured-card">
+    <div class="featured-card featured-card--linked" data-link="https://www.getikk.com/home" title="View Getikk">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
       <div class="featured-card__content">
         <div class="featured-card__meta">SaaS Platform&nbsp;&nbsp;·&nbsp;&nbsp;WhatsApp Automation</div>
         <div class="featured-card__logo">
@@ -1258,7 +1294,8 @@
     </div>
 
     <!-- Second featured project — add the ERP24K dashboard collage image to the Portfolio folder as "ERP24K Schemes.png" (or update the src below) to complete this card -->
-    <div class="featured-card featured-card--erp">
+    <div class="featured-card featured-card--erp featured-card--linked" data-link="#" title="Add the ERP24K site URL here">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
       <div class="erp-head">
         <div class="erp-head__title">
           <div class="featured-card__meta">Jewellery SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Marketing Website</div>
@@ -1816,6 +1853,28 @@
     viewport.addEventListener('touchend', function(){
       setTimeout(function(){ track.classList.remove('is-paused'); }, 800);
     }, { passive:true });
+  })();
+
+  // --- featured work: cursor-following "View" pill + click-through to the live project ---
+  // NOTE: cards currently link to "#" — swap each data-link value with the real project URL when ready.
+  (function(){
+    var cards = document.querySelectorAll('.featured-card--linked');
+    cards.forEach(function(card){
+      var pill = card.querySelector('.featured-card__cursor-view');
+      if (pill){
+        card.addEventListener('mousemove', function(e){
+          var r = card.getBoundingClientRect();
+          pill.style.left = (e.clientX - r.left) + 'px';
+          pill.style.top = (e.clientY - r.top) + 'px';
+        });
+      }
+      card.addEventListener('click', function(e){
+        var href = card.dataset.link;
+        if (href && href !== '#'){
+          window.open(href, '_blank', 'noopener');
+        }
+      });
+    });
   })();
 
   // --- design gallery: hover a card to pop up the full image + description ---
