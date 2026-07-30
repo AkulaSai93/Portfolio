@@ -658,6 +658,7 @@
   .featured-stack .featured-card:nth-child(3){ z-index:3; }
   .featured-stack .featured-card:nth-child(4){ z-index:4; }
   .featured-stack .featured-card:nth-child(5){ z-index:5; }
+  .featured-stack .featured-card:nth-child(6){ z-index:6; }
   @media (max-width:960px){
     .featured-stack .featured-card{ position:relative; top:auto; }
   }
@@ -885,6 +886,34 @@
   .featured-card--upgrad .featured-card__text h3{ color:#fff; }
   .featured-card--upgrad .featured-card__text p{ color:rgba(255,255,255,.75); }
   .featured-card--upgrad .featured-card__mockup img{ object-fit:contain; object-position:bottom; }
+
+  /* ---------- featured work #6 (RenewBin) — same left-content/right-mockup layout, green gradient ---------- */
+  .featured-card--renewbin{
+    aspect-ratio:1272/500;
+    background:radial-gradient(120% 140% at 100% 0%, #2f8a52 0%, #bfe6c9 35%, #f2faf3 60%, #ffffff 85%);
+    display:block;
+    padding:0;
+  }
+  .renewbin-illustration{
+    width:64px;
+    height:auto;
+    display:block;
+    margin-bottom:4px;
+  }
+  .renewbin-title{
+    color:#006736 !important;
+    margin:0 !important;
+  }
+  .featured-card--renewbin .featured-card__text h4{
+    margin:0;
+    font-size:clamp(14px,1.6vw,19px);
+    font-weight:700;
+    color:#173148;
+  }
+  .featured-card--renewbin .featured-card__text p{ color:rgba(23,49,72,.85); }
+  .featured-card--renewbin .featured-card__meta{ color:#000; }
+  .featured-card--renewbin .featured-card__mockup{ right:0; width:auto; }
+  .featured-card--renewbin .featured-card__mockup img{ object-fit:contain; object-position:right bottom; }
 
   /* ---------- beyond the interface ---------- */
   .beyond{
@@ -1406,6 +1435,23 @@
       </div>
       <div class="featured-card__mockup">
         <img src="sot.png" alt="upGrad School of Technology website mockup">
+      </div>
+    </div>
+
+    <!-- Sixth featured project -->
+    <div class="featured-card featured-card--renewbin featured-card--linked" data-link="https://www.figma.com/proto/MYVXwors73p02SvOIGVLfW/Projects?node-id=12-9246&viewport=309%2C102%2C0.11&t=ZdfaQBbIPDsuM2je-1&scaling=min-zoom&content-scaling=fixed&page-id=10%3A1705">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <img class="renewbin-illustration" src="RenewBin Illustartion.png" alt="">
+        <div class="featured-card__meta">Sustainability Platform&nbsp;&nbsp;·&nbsp;&nbsp;Product Design</div>
+        <div class="featured-card__text">
+          <h3 class="renewbin-title">RenewBin</h3>
+          <h4>Smart Waste Management for a Greener Tomorrow</h4>
+          <p>Designed a digital platform that simplifies waste collection, recycling, and sustainability tracking through an intuitive and user-friendly experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="RenewBin image.png" alt="RenewBin app mockup">
       </div>
     </div>
     </div>
