@@ -786,10 +786,9 @@
     }
   }
 
-  /* ---------- featured work #2 (Figma node 28:421 — ERP24K Jewellery Schemes) ---------- */
+  /* ---------- featured work #2 (ERP24K Schemes) — top text row + full-width image below ---------- */
   .featured-card--erp{
     aspect-ratio:auto;
-    margin-top:32px;
     background:linear-gradient(120deg,#f4f4f4 0%,#f7f2e6 55%,#fdeec2 100%);
     display:flex;
     flex-direction:column;
@@ -805,10 +804,11 @@
     gap:40px;
     flex-wrap:wrap;
     width:100%;
+    flex:0 0 auto;
   }
   .erp-head__title h3{
-    margin:0;
-    font-size:clamp(22px,3vw,32px);
+    margin:12px 0 0;
+    font-size:clamp(20px,2.6vw,32px);
     font-weight:700;
     line-height:1.15;
     color:var(--navy);
@@ -817,24 +817,41 @@
   .erp-head__desc{
     flex:1 1 320px;
     max-width:480px;
-    font-size:15px;
+    font-size:clamp(12px,1.4vw,15px);
     line-height:1.5;
     color:rgba(23,49,72,.85);
     padding-top:6px;
   }
   .erp-mockup{
+    flex:1 1 auto;
+    min-height:0;
     width:100%;
     max-width:900px;
-    margin-top:24px;
+    margin-top:16px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
   }
   .erp-mockup img{
-    width:100%;
+    max-width:100%;
+    max-height:100%;
+    width:auto;
     height:auto;
+    object-fit:contain;
     display:block;
   }
   @media (max-width:700px){
     .featured-card--erp{ padding:32px 24px 0; }
   }
+
+  /* ---------- featured work #3 (ERP24K Jewellery ERP) — same left-content/right-mockup layout as the Getikk card, its own background + accent color ---------- */
+  .featured-card--erp2{
+    aspect-ratio:1272/500;
+    background:linear-gradient(135deg,#eaf4fb 0%,#dbeaf7 100%);
+    display:block;
+    padding:0;
+  }
+  .featured-card--erp2 .featured-card__mockup img{ object-fit:contain; object-position:center; }
 
   /* ---------- beyond the interface ---------- */
   .beyond{
@@ -1280,7 +1297,7 @@
     <div class="section__head"><span class="pill-heading">Featured work</span></div>
     <!-- Featured work cards stack on scroll (like Sanjay Menon's portfolio reference): each card sticks in place and the next one slides up to cover it. -->
     <div class="featured-stack">
-    <div class="featured-card featured-card--linked" data-link="https://www.getikk.com/home" title="View Getikk">
+    <div class="featured-card featured-card--linked" data-link="https://www.getikk.com/home">
       <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
       <div class="featured-card__content">
         <div class="featured-card__meta">SaaS Platform&nbsp;&nbsp;·&nbsp;&nbsp;WhatsApp Automation</div>
@@ -1298,7 +1315,7 @@
     </div>
 
     <!-- Second featured project — add the ERP24K dashboard collage image to the Portfolio folder as "ERP24K Schemes.png" (or update the src below) to complete this card -->
-    <div class="featured-card featured-card--erp featured-card--linked" data-link="#" title="Add the ERP24K site URL here">
+    <div class="featured-card featured-card--erp featured-card--linked" data-link="https://schemes.erp24k.com/">
       <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
       <div class="erp-head">
         <div class="erp-head__title">
@@ -1309,6 +1326,21 @@
       </div>
       <div class="erp-mockup">
         <img src="Schemes.png" alt="ERP24K Jewellery Schemes dashboard mockup">
+      </div>
+    </div>
+
+    <!-- Third featured project — add the ERP24K device-collage mockup to the Portfolio folder as "ERP24K ERP.png" (or update the src below) to complete this card -->
+    <div class="featured-card featured-card--erp featured-card--erp2 featured-card--linked" data-link="#">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__meta">Enterprise Software&nbsp;&nbsp;·&nbsp;&nbsp;ERP Application</div>
+        <div class="featured-card__text">
+          <h3>ERP24K Jewellery ERP</h3>
+          <p>Designed a comprehensive ERP application that helps jewellery retailers manage inventory, billing, sales, customer relationships, accounting, and day-to-day operations from a single platform.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="ERP24K.png" alt="ERP24K Jewellery ERP device mockup">
       </div>
     </div>
     </div>
