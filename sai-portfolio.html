@@ -729,6 +729,56 @@
     }
   }
 
+  /* ---------- featured work #2 (Figma node 28:421 — ERP24K Jewellery Schemes) ---------- */
+  .featured-card--erp{
+    aspect-ratio:auto;
+    margin-top:32px;
+    background:linear-gradient(120deg,#f4f4f4 0%,#f7f2e6 55%,#fdeec2 100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:40px 48px 0;
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+  .erp-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:40px;
+    flex-wrap:wrap;
+    width:100%;
+  }
+  .erp-head__title h3{
+    margin:0;
+    font-size:clamp(22px,3vw,32px);
+    font-weight:700;
+    line-height:1.15;
+    color:var(--navy);
+  }
+  .erp-head__title h3 .accent{ color:#e0a415; display:block; }
+  .erp-head__desc{
+    flex:1 1 320px;
+    max-width:480px;
+    font-size:15px;
+    line-height:1.5;
+    color:rgba(23,49,72,.85);
+    padding-top:6px;
+  }
+  .erp-mockup{
+    width:100%;
+    max-width:900px;
+    margin-top:24px;
+  }
+  .erp-mockup img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  @media (max-width:700px){
+    .featured-card--erp{ padding:32px 24px 0; }
+  }
+
   /* ---------- beyond the interface ---------- */
   .beyond{
     position:relative;
@@ -1185,6 +1235,20 @@
       </div>
       <div class="featured-card__mockup">
         <img src="Getikk image.png" alt="Getikk WhatsApp business automation mockup">
+      </div>
+    </div>
+
+    <!-- Second featured project — add the ERP24K dashboard collage image to the Portfolio folder as "ERP24K Schemes.png" (or update the src below) to complete this card -->
+    <div class="featured-card featured-card--erp">
+      <div class="erp-head">
+        <div class="erp-head__title">
+          <div class="featured-card__meta">Jewellery SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Marketing Website</div>
+          <h3>ERP24K Jewellery<span class="accent">Schemes</span></h3>
+        </div>
+        <p class="erp-head__desc">Designed a conversion-focused marketing website that showcases ERP24K's digital jewellery savings scheme platform with a modern, user-centric experience.</p>
+      </div>
+      <div class="erp-mockup">
+        <img src="Schemes.png" alt="ERP24K Jewellery Schemes dashboard mockup">
       </div>
     </div>
   </div>
