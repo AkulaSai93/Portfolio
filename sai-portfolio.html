@@ -659,6 +659,7 @@
   .featured-stack .featured-card:nth-child(4){ z-index:4; }
   .featured-stack .featured-card:nth-child(5){ z-index:5; }
   .featured-stack .featured-card:nth-child(6){ z-index:6; }
+  .featured-stack .featured-card:nth-child(7){ z-index:7; }
   @media (max-width:960px){
     .featured-stack .featured-card{ position:relative; top:auto; }
   }
@@ -914,6 +915,28 @@
   .featured-card--renewbin .featured-card__meta{ color:#000; }
   .featured-card--renewbin .featured-card__mockup{ right:0; width:auto; }
   .featured-card--renewbin .featured-card__mockup img{ object-fit:contain; object-position:right bottom; }
+
+  /* ---------- featured work #7 (Spin & Clean) — same left-content/right-mockup layout, lavender gradient ---------- */
+  .featured-card--spinclean{
+    aspect-ratio:1272/500;
+    background:linear-gradient(135deg,#ffffff 0%,#e6e3fb 50%,#c9c3f5 100%);
+    display:block;
+    padding:0;
+  }
+  .spinclean-title{ color:#6a5aec !important; }
+  .featured-card--spinclean .featured-card__text h4{
+    margin:0;
+    font-size:clamp(14px,1.6vw,19px);
+    font-weight:700;
+    color:var(--navy);
+  }
+  .featured-card--spinclean .featured-card__mockup{ right:0; width:auto; overflow:hidden; }
+  .featured-card--spinclean .featured-card__mockup img{
+    object-fit:contain;
+    object-position:right center;
+    transform:scale(1.9);
+    transform-origin:right center;
+  }
 
   /* ---------- beyond the interface ---------- */
   .beyond{
@@ -1452,6 +1475,23 @@
       </div>
       <div class="featured-card__mockup">
         <img src="RenewBin image.png" alt="RenewBin app mockup">
+      </div>
+    </div>
+
+    <!-- Seventh featured project — add the Spin & Clean app screens mockup to the Portfolio folder as "Spin and Clean.png" (or update the src below) to complete this card -->
+    <div class="featured-card featured-card--spinclean featured-card--linked" data-link="https://www.figma.com/design/MYVXwors73p02SvOIGVLfW/Projects?node-id=12-2218&t=BnE3gYMxgnFzfINb-1">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__logo"><img src="Spin & Clean logo.png" alt="Spin & Clean logo"></div>
+        <div class="featured-card__meta">Service Platform&nbsp;&nbsp;·&nbsp;&nbsp;Product Design</div>
+        <div class="featured-card__text">
+          <h3 class="spinclean-title">Spin &amp; Clean</h3>
+          <h4>Making Laundry Simple, Fast, and Hassle-Free</h4>
+          <p>Designed a modern laundry service platform that enables users to schedule pickups, track orders, and manage laundry services through a seamless digital experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="Spin & Clean image.png" alt="Spin & Clean app mockup">
       </div>
     </div>
     </div>
