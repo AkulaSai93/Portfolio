@@ -642,6 +642,24 @@
     opacity:.85;
   }
 
+  /* ---------- featured work: cards stack on scroll — each card sticks, then the next one slides up over it ---------- */
+  .featured-stack{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:60px;
+  }
+  .featured-stack .featured-card{
+    position:sticky;
+    top:110px;
+  }
+  .featured-stack .featured-card:nth-child(1){ z-index:1; }
+  .featured-stack .featured-card:nth-child(2){ z-index:2; }
+  .featured-stack .featured-card:nth-child(3){ z-index:3; }
+  @media (max-width:960px){
+    .featured-stack .featured-card{ position:relative; top:auto; }
+  }
+
   /* ---------- featured work (Figma node 27:1565 / 58:3451) — positions match the 1272x500 Figma frame exactly, scaled with %/em so the layout stays proportional at any width ---------- */
   .featured-card{
     position:relative;
@@ -1221,7 +1239,8 @@
 <section class="section" id="work">
   <div class="wrap">
     <div class="section__head"><span class="pill-heading">Featured work</span></div>
-    <!-- Featured work card — replace phone-mockup content with real screenshots when available -->
+    <!-- Featured work cards stack on scroll (like Sanjay Menon's portfolio reference): each card sticks in place and the next one slides up to cover it. -->
+    <div class="featured-stack">
     <div class="featured-card">
       <div class="featured-card__content">
         <div class="featured-card__meta">SaaS Platform&nbsp;&nbsp;·&nbsp;&nbsp;WhatsApp Automation</div>
@@ -1250,6 +1269,7 @@
       <div class="erp-mockup">
         <img src="Schemes.png" alt="ERP24K Jewellery Schemes dashboard mockup">
       </div>
+    </div>
     </div>
   </div>
 </section>
