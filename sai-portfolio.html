@@ -657,6 +657,7 @@
   .featured-stack .featured-card:nth-child(2){ z-index:2; }
   .featured-stack .featured-card:nth-child(3){ z-index:3; }
   .featured-stack .featured-card:nth-child(4){ z-index:4; }
+  .featured-stack .featured-card:nth-child(5){ z-index:5; }
   @media (max-width:960px){
     .featured-stack .featured-card{ position:relative; top:auto; }
   }
@@ -872,6 +873,18 @@
     padding:0;
   }
   .featured-card--aimerz .featured-card__mockup img{ object-fit:contain; object-position:bottom; }
+
+  /* ---------- featured work #5 (upGrad School of Technology) — same left-content/right-mockup layout, black background ---------- */
+  .featured-card--upgrad{
+    aspect-ratio:1272/500;
+    background:#0a0a0a;
+    display:block;
+    padding:0;
+  }
+  .featured-card--upgrad .featured-card__meta,
+  .featured-card--upgrad .featured-card__text h3{ color:#fff; }
+  .featured-card--upgrad .featured-card__text p{ color:rgba(255,255,255,.75); }
+  .featured-card--upgrad .featured-card__mockup img{ object-fit:contain; object-position:bottom; }
 
   /* ---------- beyond the interface ---------- */
   .beyond{
@@ -1377,6 +1390,22 @@
       </div>
       <div class="featured-card__mockup">
         <img src="Aimerz.ai.png" alt="Aimerz.ai website mockup">
+      </div>
+    </div>
+
+    <!-- Fifth featured project -->
+    <div class="featured-card featured-card--upgrad featured-card--linked" data-link="https://sot.upgrad.com/?utm_source=google&utm_medium=cpc&utm_campaign=brand_search_5thMay&utm_content=194929145926-807858041699&utm_term=upgrad+school+of+technology">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__meta">EdTech Platform&nbsp;&nbsp;·&nbsp;&nbsp;Website Design</div>
+        <div class="featured-card__logo"><img src="sot logo.png" alt="upGrad School of Technology logo"></div>
+        <div class="featured-card__text">
+          <h3>upGrad School of Technology</h3>
+          <p>Crafted a modern, conversion-focused website that showcases engineering programs, student success, and career opportunities through an intuitive user experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="sot.png" alt="upGrad School of Technology website mockup">
       </div>
     </div>
     </div>
