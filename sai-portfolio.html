@@ -116,29 +116,6 @@
     align-items:center;
     gap:28px;
   }
-  .nav__toggle{
-    display:none;
-    width:40px; height:40px;
-    align-items:center;
-    justify-content:center;
-    background:transparent;
-    border:0;
-    padding:0;
-    cursor:pointer;
-    flex-direction:column;
-    gap:5px;
-  }
-  .nav__toggle span{
-    display:block;
-    width:20px;
-    height:2px;
-    background:var(--navy);
-    border-radius:2px;
-    transition:transform .25s ease, opacity .25s ease;
-  }
-  .nav-outer.is-open .nav__toggle span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
-  .nav-outer.is-open .nav__toggle span:nth-child(2){ opacity:0; }
-  .nav-outer.is-open .nav__toggle span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
   .btn{
     display:inline-flex;
     align-items:center;
@@ -1349,38 +1326,7 @@
   /* ---------- responsive ---------- */
   @media (max-width:960px){
     .nav-outer{ padding:0 12px; }
-    .nav{
-      position:relative;
-      flex-wrap:wrap;
-      border-radius:28px;
-      transition:border-radius .2s ease;
-    }
-    .nav-outer.is-open .nav{ border-radius:20px; }
-    .nav__toggle{ display:flex; }
-    .nav__links{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:2px;
-      width:100%;
-      order:3;
-      max-height:0;
-      overflow:hidden;
-      opacity:0;
-      transition:max-height .3s ease, opacity .25s ease, margin-top .3s ease;
-      margin-top:0;
-    }
-    .nav-outer.is-open .nav__links{
-      max-height:320px;
-      opacity:1;
-      margin-top:12px;
-    }
-    .nav__links a{
-      display:block;
-      width:100%;
-      padding:12px 6px;
-      border-top:1px solid rgba(23,49,72,.08);
-    }
+    .nav__links{ display:none; }
     .beyond__stage{ aspect-ratio:auto; padding:8px 0 32px; display:flex; flex-direction:column; }
     .beyond__content{ position:static; transform:none; order:1; margin:0 auto 32px; max-width:100%; }
     .beyond__badges{
@@ -1424,9 +1370,6 @@
       </div>
       <div class="nav__right">
         <a class="btn" href="#contact">Lets Talk</a>
-        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
       </div>
     </nav>
   </div>
@@ -1797,23 +1740,6 @@
 </section>
 
 <script>
-
-  // --- nav: hamburger toggle for tablet/mobile ---
-  (function(){
-    var toggle = document.getElementById('navToggle');
-    var navOuter = document.querySelector('.nav-outer');
-    if (!toggle || !navOuter) return;
-    toggle.addEventListener('click', function(){
-      var isOpen = navOuter.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-    navOuter.querySelectorAll('.nav__links a').forEach(function(link){
-      link.addEventListener('click', function(){
-        navOuter.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  })();
 
   // --- hero: floating chips/arrows converge toward center as you scroll ---
   var heroEl = document.getElementById('hero');
