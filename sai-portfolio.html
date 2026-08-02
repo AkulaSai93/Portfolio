@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai — UI/UX Designer Portfolio</title>
+<meta name="description" content="Sai is a UI/UX Designer who simplifies complexity into intuitive, purposeful digital experiences.">
+<meta property="og:title" content="Sai — UI/UX Designer">
+<meta property="og:description" content="UX Designer | Making every tap a story. Portfolio of Sai, UI/UX Designer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#173148;
+    --navy-80: rgba(23,49,72,.8);
+    --navy-50: rgba(23,49,72,.5);
+    --yellow:#f8cc00;
+    --bg:#fcfcfc;
+    --white:#ffffff;
+    --font-display:'Bricolage Grotesque', system-ui, sans-serif;
+    --font-body:'Montserrat', system-ui, sans-serif;
+    --max:1040px;
+    --radius:14px;
+    --accent:#173148;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--navy);
+    font-family:var(--font-display);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+  section{ scroll-margin-top:110px; }
+
+  .wrap{
+    max-width:none;
+    margin:0;
+    padding-inline:0;
+    width:100%;
+  }
+
+  .section__head{ perspective:800px; }
+  .pill-heading{
+    display:inline-flex;
+    align-items:center;
+    background:var(--navy);
+    color:var(--white);
+    font-weight:600;
+    font-size:clamp(18px,2.2vw,24px);
+    padding:10px 16px;
+    border-radius:2px;
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+    animation:approachFlip 2s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pill-heading{ animation:none; }
+  }
+
+  /* ---------- decorative grid background ---------- */
+  .grid-bg{
+    position:relative;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(23,49,72,.16) 1px, transparent 0) 0 0/56px 56px,
+      radial-gradient(140% 120% at 20% 15%, #d5d9fe 0%, #f6e9e2 75%);
+  }
+
+  /* ---------- nav ---------- */
+  .nav-outer{
+    position:fixed;
+    top:16px;
+    left:0;
+    right:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    padding:0 16px;
+  }
+  .nav{
+    width:100%;
+    max-width:1040px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    background:rgba(252,252,252,.85);
+    backdrop-filter:blur(10px);
+    border:0.4px solid rgba(0,0,0,.2);
+    border-radius:1000px;
+    padding:12px 16px;
+  }
+  .nav__logo{
+    font-size:20px;
+    color:var(--navy-80);
+    padding-left:8px;
+    white-space:nowrap;
+  }
+  .nav__links{
+    display:flex;
+    align-items:center;
+    gap:28px;
+    font-size:16px;
+    color:var(--navy-80);
+  }
+  .nav__links a:hover{ color:var(--navy); }
+  .nav__right{
+    display:flex;
+    align-items:center;
+    gap:28px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--navy);
+    color:var(--white);
+    font-weight:500;
+    font-size:16px;
+    padding:10px 20px;
+    border-radius:1000px;
+    white-space:nowrap;
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); opacity:.9; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    padding:110px 24px 24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    box-sizing:border-box;
+    position:relative;
+    overflow:hidden;
+    perspective:1000px;
+  }
+  .hero__inner{
+    max-width:var(--max);
+    width:100%;
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin:auto 0;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    width:min(1100px, 130%);
+    height:min(900px, 110%);
+    background:radial-gradient(closest-side, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 40%, rgba(255,255,255,0) 75%);
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* ---------- warped mesh grid (reacts to cursor) ---------- */
+  .hero__mesh{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+    display:block;
+    pointer-events:none;
+  }
+
+  /* ---------- googly eyes (track cursor) ---------- */
+  .hero__eyes{
+    display:flex;
+    gap:18px;
+    margin-bottom:32px;
+    position:relative;
+    z-index:2;
+  }
+  .eye{
+    width:76px; height:76px;
+    background:#fff;
+    border-radius:50%;
+    box-shadow:0 8px 18px rgba(23,49,72,.16);
+    position:relative;
+  }
+  .pupil{
+    width:30px; height:30px;
+    background:#111;
+    border-radius:50%;
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+  }
+
+  .hero__badges{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:16px;
+    margin-bottom:28px;
+  }
+  .badge{
+    font-size:18px;
+    padding:11px 20px;
+  }
+  .badge--navy{ background:var(--navy); color:var(--white); }
+  .badge--yellow{ background:var(--yellow); color:#000; }
+  .hero h1{
+    font-size:clamp(44px,8vw,88px);
+    font-weight:700;
+    line-height:1.05;
+    margin:0 0 28px;
+  }
+  .wave-emoji{
+    display:inline-block;
+    transform-origin:70% 70%;
+    animation:wave 3s infinite;
+  }
+  @keyframes wave{
+    0%{ transform:rotate(0deg); }
+    4%{ transform:rotate(16deg); }
+    8%{ transform:rotate(-10deg); }
+    12%{ transform:rotate(16deg); }
+    16%{ transform:rotate(-6deg); }
+    20%{ transform:rotate(10deg); }
+    24%{ transform:rotate(0deg); }
+    100%{ transform:rotate(0deg); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .wave-emoji{ animation:none; }
+  }
+  .hero p{
+    font-size:clamp(17px,1.6vw,20px);
+    font-weight:300;
+    line-height:1.6;
+    max-width:680px;
+    margin:0 auto;
+  }
+
+  /* ---------- marquee ---------- */
+  .marquee{
+    background:var(--navy);
+    color:var(--white);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:20px 0;
+  }
+  .marquee__track{
+    display:inline-flex;
+    animation:scroll-left 28s linear infinite;
+  }
+  .marquee__item{
+    display:inline-flex;
+    align-items:center;
+    font-size:18px;
+    padding:0 24px;
+  }
+  .marquee__item::before{
+    content:"●";
+    font-size:8px;
+    margin-right:24px;
+    opacity:.7;
+  }
+  @keyframes scroll-left{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee__track{ animation:none; }
+  }
+
+  /* ---------- generic section spacing ---------- */
+  .section{ padding:80px 120px; }
+  .section__head{ margin-bottom:32px; }
+  .section--tight{ padding-top:40px; padding-bottom:40px; }
+
+  /* ---------- about (polaroid style) ---------- */
+  .about-section{ background:#eef1fb; }
+  .about__grid{
+    display:flex;
+    align-items:center;
+    gap:80px;
+  }
+  .about__profile{
+    order:-1;
+    flex:0 0 30%;
+    max-width:340px;
+    perspective:1200px;
+    aspect-ratio:4/5;
+  }
+  .polaroid{
+    background:#fff;
+    padding:16px 16px 56px;
+    box-shadow:0 24px 48px rgba(23,49,72,.16);
+    transform:rotate(-4deg);
+    transform-style:preserve-3d;
+    transition:transform .15s ease-out;
+    will-change:transform;
+    max-width:320px;
+    margin:0 auto;
+  }
+  /* the polaroid is moved into this fixed wrapper by JS on wide screens
+     and animated from the About slot to the Experience slot on scroll */
+  .scroll-photo{
+    position:fixed;
+    top:0;
+    left:0;
+    width:320px;
+    z-index:40;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .scroll-photo.is-active{ opacity:1; }
+  .scroll-photo .polaroid{ margin:0; transition:none; }
+  .polaroid__photo{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    overflow:hidden;
+    background:linear-gradient(135deg,#e8e0ff,#cfe7ff);
+  }
+  .polaroid__photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  #polaroidImgExp{
+    position:absolute;
+    inset:0;
+    transition:opacity .5s ease;
+  }
+  .polaroid__fallback{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-size:14px;
+    font-weight:500;
+    color:rgba(23,49,72,.5);
+  }
+  .about__text{
+    flex:1 1 60%;
+  }
+  .about__heading{
+    font-size:clamp(34px,5vw,60px);
+    font-weight:800;
+    color:var(--navy);
+    line-height:1.05;
+    margin:0 0 28px;
+  }
+  .about__paras{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    font-size:clamp(16px,1.6vw,18px);
+    font-weight:400;
+    line-height:1.75;
+    color:rgba(23,49,72,.65);
+  }
+  .about__paras .kp{
+    font-weight:700;
+    color:var(--accent);
+  }
+  .about__signature{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:44px;
+    color:var(--accent);
+    margin-top:32px;
+  }
+  @media (max-width:900px){
+    .about__grid{ flex-direction:column; gap:32px; align-items:stretch; }
+    .about__profile{ order:2; flex:0 0 auto; max-width:none; width:100%; margin:0 auto 12px; aspect-ratio:4/5; }
+    .about__text{ order:1; }
+    .about__profile .polaroid{ max-width:none; width:100%; transition:none; transform:rotate(-4deg) !important; }
+  }
+
+  /* ---------- experience (timeline) ---------- */
+  .exp-layout{
+    display:flex;
+    align-items:flex-start;
+    gap:64px;
+  }
+  .exp-layout__main{
+    flex:1 1 auto;
+    min-width:0;
+    max-width:560px;
+  }
+  .exp-photo-slot{
+    flex:0 0 320px;
+    align-self:flex-start;
+    height:420px;
+    margin-top:-76px;
+  }
+  @media (max-width:900px){
+    .exp-photo-slot{ display:none; }
+    .exp-layout__main{ max-width:none; }
+  }
+  .timeline{
+    position:relative;
+    padding-left:44px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:9px;
+    top:8px;
+    bottom:8px;
+    width:2px;
+    background:rgba(23,49,72,.15);
+  }
+  .timeline-item{
+    position:relative;
+    padding-bottom:32px;
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .timeline-item.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .timeline-item:last-child{ padding-bottom:0; }
+  .timeline-dot{
+    position:absolute;
+    left:-44px;
+    top:10px;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--yellow);
+    border:4px solid var(--navy);
+    box-sizing:border-box;
+    transition:transform .3s ease;
+  }
+  .timeline-item:hover .timeline-dot{ transform:scale(1.2); }
+  .timeline-card{
+    background:transparent;
+    padding:6px 0;
+    transition:transform .25s ease;
+  }
+  .timeline-card:hover{
+    transform:translateY(-4px);
+  }
+  .timeline-role{
+    font-size:clamp(20px,2.4vw,26px);
+    font-weight:700;
+    color:var(--navy);
+    margin:0 0 4px;
+  }
+  .timeline-company{
+    font-size:16px;
+    font-weight:500;
+    color:rgba(23,49,72,.7);
+    margin:0 0 10px;
+  }
+  .timeline-date{
+    font-size:14px;
+    font-weight:400;
+    color:rgba(23,49,72,.45);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .timeline-current{
+    background:var(--yellow);
+    color:#000;
+    font-size:11px;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:100px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  @media (max-width:640px){
+    .timeline{ padding-left:32px; }
+    .timeline-dot{ left:-32px; }
+    .timeline-card{ padding:20px 22px; }
+  }
+
+  /* ---------- design gallery: horizontal auto-scroll, pauses near cards ---------- */
+  .gallery-viewport{
+    overflow:hidden;
+  }
+  .gallery-track{
+    display:flex;
+    gap:24px;
+    width:max-content;
+    animation:galleryScroll 32s linear infinite;
+  }
+  .gallery-track.is-paused{ animation-play-state:paused; }
+  @keyframes galleryScroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  .gallery-card{
+    position:relative;
+    width:360px;
+    height:290px;
+    flex:0 0 auto;
+    display:flex;
+    flex-direction:column;
+    border-radius:14px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+  }
+  .gallery-card:hover{
+    transform:translateY(-6px);
+  }
+  .gallery-card__visual{
+    flex:0 0 230px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+    box-sizing:border-box;
+  }
+  .gallery-card__visual img{
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    display:block;
+    margin:auto;
+  }
+  .gallery-card__body{
+    flex:1 1 auto;
+    padding:14px 18px;
+    background:transparent;
+    display:flex;
+    align-items:center;
+    transition:background .25s ease;
+  }
+  .gallery-card:hover .gallery-card__body{
+    background:var(--accent, #fff);
+  }
+  .gallery-card__body h3{
+    margin:0;
+    font-size:16px;
+    font-weight:700;
+    color:var(--navy);
+  }
+  @media (max-width:600px){
+    .gallery-card{ width:280px; height:250px; }
+    .gallery-card__visual{ flex-basis:180px; }
+  }
+
+  /* ---------- design gallery: hover popup with full image + description ---------- */
+  .gallery-popup{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(23,49,72,.45);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .gallery-popup.is-open{
+    opacity:1;
+    visibility:visible;
+  }
+  .gallery-popup__card{
+    width:min(640px, 90vw);
+    max-height:85vh;
+    background:#fff;
+    border-radius:16px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 40px 80px rgba(23,49,72,.35);
+    transform:scale(.96);
+    transition:transform .25s ease;
+  }
+  .gallery-popup.is-open .gallery-popup__card{
+    transform:scale(1);
+  }
+  .gallery-popup__visual{
+    flex:0 0 340px;
+    height:340px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    padding:28px;
+    box-sizing:border-box;
+  }
+  .gallery-popup__visual img{
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    display:block;
+    margin:auto;
+  }
+  .gallery-popup__body{
+    flex:0 0 auto;
+    padding:24px 28px 28px;
+  }
+  .gallery-popup__body h3{
+    margin:0 0 10px;
+    font-size:22px;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .gallery-popup__body p{
+    margin:0;
+    font-size:15px;
+    line-height:1.6;
+    color:var(--navy-50);
+  }
+
+  /* ---------- recent work ---------- */
+  .work-card{
+    display:block;
+    border-radius:var(--radius);
+    padding:60px 40px;
+    text-align:center;
+    background:linear-gradient(135deg,#e8e0ff,#cfe7ff);
+    transition:transform .25s ease;
+  }
+  .work-card:hover{ transform:translateY(-4px); }
+  .work-card h3{
+    font-size:clamp(22px,3vw,28px);
+    font-weight:600;
+    margin:0 0 16px;
+  }
+  .work-card p{
+    font-size:18px;
+    font-weight:400;
+    max-width:715px;
+    margin:0 auto;
+    opacity:.85;
+  }
+
+  /* ---------- featured work: cards stack on scroll — each card sticks, then the next one slides up over it ---------- */
+  .featured-stack{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:60px;
+  }
+  .featured-stack .featured-card{
+    position:sticky;
+    top:110px;
+  }
+  .featured-stack .featured-card:nth-child(1){ z-index:1; }
+  .featured-stack .featured-card:nth-child(2){ z-index:2; }
+  .featured-stack .featured-card:nth-child(3){ z-index:3; }
+  .featured-stack .featured-card:nth-child(4){ z-index:4; }
+  .featured-stack .featured-card:nth-child(5){ z-index:5; }
+  .featured-stack .featured-card:nth-child(6){ z-index:6; }
+  .featured-stack .featured-card:nth-child(7){ z-index:7; }
+  @media (max-width:640px){
+    .featured-stack .featured-card{ top:80px; }
+  }
+
+  /* click-through to the live project; a "View" pill follows the cursor while hovering */
+  .featured-card--linked{ cursor:pointer; }
+  .featured-card__cursor-view{
+    position:absolute;
+    top:0; left:0;
+    z-index:5;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    -webkit-backdrop-filter:blur(10px) saturate(140%);
+    backdrop-filter:blur(10px) saturate(140%);
+    border:1px solid rgba(255,255,255,.4);
+    box-shadow:0 8px 24px rgba(23,49,72,.18), inset 0 1px 1px rgba(255,255,255,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.6);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .featured-card__cursor-view svg{
+    width:20px;
+    height:20px;
+    stroke:var(--navy);
+    stroke-width:2;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .featured-card--linked:hover .featured-card__cursor-view{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  @media (max-width:960px){
+    .featured-card__cursor-view{ display:none; }
+  }
+
+  /* ---------- featured work (Figma node 27:1565 / 58:3451) — positions match the 1272x500 Figma frame exactly, scaled with %/em so the layout stays proportional at any width ---------- */
+  .featured-card{
+    position:relative;
+    width:100%;
+    aspect-ratio:1272/500;
+    border-radius:12px;
+    background:#c7ebc8;
+    overflow:hidden;
+    box-sizing:border-box;
+  }
+  .featured-card__content{
+    position:absolute;
+    left:2.36%;   /* 30/1272 */
+    top:6%;       /* 30/500 */
+    right:5%;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:clamp(10px, 2.2vw, 28px);
+    max-width:40.5%; /* 515/1272 */
+  }
+  .featured-card__meta{
+    font-size:clamp(14px, 1.5vw, 24px);
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .featured-card__logo{
+    display:flex;
+    align-items:center;
+  }
+  .featured-card__logo img{
+    height:clamp(26px, 3.2vw, 40px);
+    width:auto;
+    display:block;
+  }
+  .featured-card__text{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .featured-card__text h3{
+    margin:0;
+    font-size:clamp(18px, 2.5vw, 32px);
+    font-weight:700;
+    color:var(--navy);
+  }
+  .featured-card__text p{
+    margin:0;
+    font-size:clamp(12px, 1.5vw, 19px);
+    line-height:1.5;
+    color:rgba(23,49,72,.9);
+  }
+  .featured-card__mockup{
+    position:absolute;
+    left:45.83%;   /* 583/1272 */
+    top:0;
+    width:52.75%;  /* 671/1272 */
+    height:100%;   /* fills the card's height; the image itself is shown uncropped inside via object-fit:contain */
+    z-index:0;
+    overflow:hidden;
+  }
+  .featured-card__mockup img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:top;
+    display:block;
+  }
+  @media (max-width:960px){
+    .featured-card{
+      aspect-ratio:auto;
+      height:auto;
+      display:flex;
+      flex-direction:column;
+    }
+    .featured-card__content{
+      position:static;
+      flex:0 0 auto;
+      max-width:100%;
+      padding:20px 20px 0;
+      gap:10px;
+    }
+    .featured-card__mockup{
+      position:relative;
+      left:auto; top:auto; right:auto;
+      width:100%;
+      height:auto;
+      aspect-ratio:16/11;
+      flex:0 0 auto;
+      margin-top:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .featured-card__mockup img{ width:100%; height:100%; }
+  }
+
+  /* ---------- featured work #2 (ERP24K Schemes) — top text row + full-width image below ---------- */
+  .featured-card--erp{
+    aspect-ratio:auto;
+    background:linear-gradient(120deg,#f4f4f4 0%,#f7f2e6 55%,#fdeec2 100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:40px 48px 0;
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+  .erp-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:40px;
+    flex-wrap:wrap;
+    width:100%;
+    flex:0 0 auto;
+  }
+  .erp-head__title h3{
+    margin:12px 0 0;
+    font-size:clamp(20px,2.6vw,32px);
+    font-weight:700;
+    line-height:1.15;
+    color:var(--navy);
+  }
+  .erp-head__title h3 .accent{ color:#e0a415; display:block; }
+  .erp-head__desc{
+    flex:1 1 320px;
+    max-width:480px;
+    font-size:clamp(12px,1.4vw,15px);
+    line-height:1.5;
+    color:rgba(23,49,72,.85);
+    padding-top:6px;
+  }
+  .erp-mockup{
+    flex:1 1 auto;
+    min-height:0;
+    width:100%;
+    max-width:900px;
+    margin-top:16px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .erp-mockup img{
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    display:block;
+  }
+  @media (max-width:700px){
+    .featured-card--erp{ padding:20px 20px 0; }
+  }
+
+  /* ---------- featured work #3 (ERP24K Jewellery ERP) — same left-content/right-mockup layout as the Getikk card, its own background + accent color ---------- */
+  .featured-card--erp2{
+    aspect-ratio:1272/500;
+    background:linear-gradient(135deg,#eaf4fb 0%,#dbeaf7 100%);
+    display:block;
+    padding:0;
+  }
+  .featured-card--erp2 .featured-card__text h3 .accent{ color:#00AAFF; }
+  .featured-card--erp2 .featured-card__mockup{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .featured-card--erp2 .featured-card__mockup img{
+    width:auto;
+    height:88%;
+    object-fit:contain;
+  }
+
+  /* ---------- featured work #4 (Aimerz.ai) — same left-content/right-mockup layout, warm yellow background ---------- */
+  .featured-card--aimerz{
+    aspect-ratio:1272/500;
+    background:radial-gradient(120% 140% at 100% 0%, #f9d54f 0%, #fbe6a0 35%, #fdf6e3 60%, #ffffff 85%);
+    display:block;
+    padding:0;
+  }
+  .featured-card--aimerz .featured-card__mockup img{ object-fit:contain; object-position:bottom; }
+
+  /* ---------- featured work #5 (upGrad School of Technology) — same left-content/right-mockup layout, black background ---------- */
+  .featured-card--upgrad{
+    aspect-ratio:1272/500;
+    background:#0a0a0a;
+    display:block;
+    padding:0;
+  }
+  .featured-card--upgrad .featured-card__meta,
+  .featured-card--upgrad .featured-card__text h3{ color:#fff; }
+  .featured-card--upgrad .featured-card__text p{ color:rgba(255,255,255,.75); }
+  .featured-card--upgrad .featured-card__mockup img{ object-fit:contain; object-position:bottom; }
+
+  /* ---------- featured work #6 (RenewBin) — 1:1 match of Figma node 106:10017 (desktop, 1272x500) ---------- */
+  .featured-card--renewbin{
+    aspect-ratio:1272/500;
+    background:
+      linear-gradient(55.0718deg, rgba(0,0,0,0) 0.899%, rgba(255,255,255,.2) 68.285%),
+      linear-gradient(62.0901deg, rgb(255,255,255) 56.225%, rgb(0,103,54) 90.571%);
+    display:block;
+    padding:0;
+  }
+  .renewbin-illustration{
+    position:absolute;
+    left:2.52%;
+    top:6%;
+    width:14.6%;
+    height:auto;
+    z-index:1;
+    margin:0;
+  }
+  .featured-card--renewbin .featured-card__content{
+    left:2.04%;
+    top:44.2%;
+    max-width:45.99%;
+    gap:clamp(16px, 2.2vw, 32px);
+  }
+  .featured-card--renewbin .featured-card__meta{ font-size:clamp(14px,1.6vw,24px); color:#000; }
+  .renewbin-title{
+    color:#006736 !important;
+    margin:0 !important;
+    font-size:clamp(20px,2.6vw,32px) !important;
+  }
+  .featured-card--renewbin .featured-card__text{ gap:16px; }
+  .featured-card--renewbin .featured-card__text h4{
+    margin:0;
+    font-size:clamp(14px,1.6vw,19px);
+    font-weight:700;
+    color:#173148;
+  }
+  .featured-card--renewbin .featured-card__text p{
+    color:rgba(0,0,0,.9);
+    font-size:clamp(13px,1.5vw,19px);
+  }
+  .featured-card--renewbin .featured-card__mockup{
+    left:49.37%;
+    top:10.4%;
+    width:50.6%;
+    height:auto;
+    right:auto;
+    bottom:auto;
+    overflow:visible;
+  }
+  .featured-card--renewbin .featured-card__mockup img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+
+  /* ---------- featured work #7 (Spin & Clean) — same left-content/right-mockup layout, lavender gradient ---------- */
+  .featured-card--spinclean{
+    aspect-ratio:1272/500;
+    background:linear-gradient(135deg,#ffffff 0%,#e6e3fb 50%,#c9c3f5 100%);
+    display:block;
+    padding:0;
+  }
+  .spinclean-title{ color:#6a5aec !important; }
+  .featured-card--spinclean .featured-card__text h4{
+    margin:0;
+    font-size:clamp(14px,1.6vw,19px);
+    font-weight:700;
+    color:var(--navy);
+  }
+  /* new "Spin & Clean.png" desktop export is a straight-on (non-tilted) composite,
+     so the old right-anchored crop + 1.9x zoom (tuned for the previous tilted image)
+     no longer applies — just contain it in the right half like the other cards */
+  .featured-card--spinclean .featured-card__mockup{ right:0; width:auto; overflow:hidden; }
+  .featured-card--spinclean .featured-card__mockup img{
+    object-fit:contain;
+    object-position:right bottom;
+    transform:none;
+  }
+
+  /* ---------- featured work variants: tablet/mobile reset — every card gets the same
+     fixed total height (set on .featured-card above) so the stack looks uniform; each
+     variant's mockup just fills whatever space is left after its text block, via the
+     shared flex:1 .featured-card__mockup rule above ---------- */
+  @media (max-width:960px){
+    .featured-card--erp2,
+    .featured-card--aimerz,
+    .featured-card--upgrad,
+    .featured-card--renewbin,
+    .featured-card--spinclean{
+      aspect-ratio:auto;
+      display:flex;
+      flex-direction:column;
+    }
+    .featured-card--erp2 .featured-card__mockup img{
+      object-position:center;
+    }
+    .featured-card--aimerz .featured-card__mockup img,
+    .featured-card--upgrad .featured-card__mockup img,
+    .featured-card--spinclean .featured-card__mockup img{
+      object-position:bottom;
+    }
+    .featured-card--erp2 .featured-card__mockup,
+    .featured-card--aimerz .featured-card__mockup,
+    .featured-card--upgrad .featured-card__mockup,
+    .featured-card--renewbin .featured-card__mockup,
+    .featured-card--spinclean .featured-card__mockup{
+      transform:none;
+    }
+    .featured-card--spinclean .featured-card__mockup img{ transform:scale(0.8); transform-origin:bottom center; }
+    .featured-card--renewbin{ position:relative; }
+    .renewbin-illustration{
+      position:static;
+      width:44px;
+      height:auto;
+      display:block;
+      margin:0 0 2px;
+      order:-1;
+    }
+    /* same full image as desktop, just rendered smaller — no cropping/zooming */
+    .featured-card--renewbin .featured-card__mockup{
+      aspect-ratio:auto;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      width:100%;
+      left:0;
+      right:0;
+    }
+    .featured-card--renewbin .featured-card__mockup img{
+      width:90%;
+      max-width:none;
+      height:auto;
+      margin:0 auto;
+      display:block;
+    }
+    .featured-card--renewbin .featured-card__content{
+      padding:20px 20px 0;
+      order:0;
+      position:static;
+      top:auto;
+      left:auto;
+      max-width:100%;
+    }
+
+    /* card 2 (ERP24K Schemes) uses its own erp-head/erp-mockup markup instead of
+       .featured-card__content/__mockup — give it the same aspect-ratio-based sizing
+       (rather than its natural, much larger source image) so it matches card 1's height */
+    .featured-card--erp{ display:flex; flex-direction:column; padding-top:20px; }
+    .erp-head{ flex:0 0 auto; gap:8px; }
+    .erp-head__title h3{ margin:8px 0 0; }
+    .erp-head__desc{ padding-top:0; }
+    .erp-mockup{
+      flex:0 0 auto;
+      width:100%;
+      max-width:none;
+      aspect-ratio:16/11;
+      margin-top:10px;
+      align-items:flex-end;
+    }
+    .erp-mockup img{
+      width:100%;
+      height:110%;
+      max-width:none;
+      max-height:none;
+      object-fit:contain;
+      object-position:bottom;
+    }
+  }
+
+  /* ---------- beyond the interface ---------- */
+  .beyond{
+    position:relative;
+    color:var(--white);
+    overflow:hidden;
+    padding:60px 120px;
+    background-repeat:no-repeat;
+    background-image: url("Beyond the interface.png");
+    background-position: center;
+    background-size: cover;
+  }
+  .beyond::before{
+    content:"";
+    position:absolute; inset:0;
+    background:rgba(0,0,0,.36);
+  }
+  .beyond__stage{
+    position:relative;
+    max-width:1280px;
+    margin:0 auto;
+    aspect-ratio:1280/620;
+  }
+  .beyond__content{
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    z-index:2;
+    text-align:center;
+    width:100%;
+    max-width:800px;
+    padding:0 20px;
+  }
+  .beyond h2{
+    font-size:clamp(30px,5.5vw,48px);
+    font-weight:600;
+    margin:0 0 24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+    justify-content:center;
+    perspective:800px;
+  }
+  /* 3D parallax: tilts and lifts toward the cursor as it moves across the
+     section, driven by JS (see beyond parallax script) — translateZ gives
+     it real depth/shadow so it visually pops off the page */
+  .beyond h2 .highlight{
+    background:var(--white);
+    color:#000;
+    padding:4px 14px;
+    display:inline-block;
+    transform-style:preserve-3d;
+    transition:transform .15s ease-out, box-shadow .15s ease-out;
+    box-shadow:0 0 0 rgba(0,0,0,0);
+    will-change:transform;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .beyond h2 .highlight{ transition:none; }
+  }
+  .beyond__content p{
+    font-size:clamp(16px,2.4vw,24px);
+    font-weight:300;
+    margin:0;
+    opacity:.9;
+  }
+  .beyond__badges{
+    position:absolute;
+    inset:0;
+    z-index:1;
+  }
+  .beyond__badge{
+    position:absolute;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    touch-action:none;
+    cursor:grab;
+    z-index:1;
+  }
+  .beyond__badge.is-dragging{
+    cursor:grabbing;
+    z-index:5;
+  }
+  /* same exact Figma position and size as before — but now the pill is a
+     playful draggable toy: click/tap and drag it anywhere on the section,
+     it keeps its tilt while you move it, and lets go wherever you drop it */
+  .beyond__badge span{
+    display:inline-flex;
+    background:var(--yellow);
+    color:#000;
+    font-size:16px;
+    font-family:var(--font-display);
+    padding:10px 20px;
+    border-radius:100px;
+    white-space:nowrap;
+    transform:rotate(var(--tilt, 0deg));
+    transition:box-shadow .2s ease;
+    user-select:none;
+    pointer-events:none;
+  }
+  .beyond__badge.is-dragging span{
+    box-shadow:0 12px 28px rgba(0,0,0,.35);
+  }
+  /* exact positions/rotations lifted from the Figma dev-mode export (1280x832 canvas) */
+  .b1{ left:8.05%;  top:37.66%; width:110px; height:85px; }
+  .b1 span{ --tilt:-27.72deg; }
+  .b2{ left:14.4%;  top:19.42%; width:216px; height:64px; }
+  .b2 span{ --tilt:6.05deg; }
+  .b3{ left:39.5%;  top:16.66%; width:188px; height:60px; }
+  .b3 span{ --tilt:-5.63deg; }
+  .b4{ left:62%;    top:16.35%; width:229px; height:94px; }
+  .b4 span{ --tilt:-13.74deg; }
+  .b5{ left:69%;    top:68.9%;  width:207px; height:108px; }
+  .b5 span{ --tilt:-19.52deg; }
+  .b6{ left:10.7%;  top:68.6%;  width:136px; height:59px; }
+  .b6 span{ --tilt:7.54deg; }
+  .b7{ left:28.1%;  top:75.8%;  width:204px; height:65px; }
+  .b7 span{ --tilt:-6.81deg; }
+  .b8{ left:50.4%;  top:74.7%;  width:155px; height:60px; }
+  .b8 span{ --tilt:-6.81deg; }
+  .b9{ left:77.9%;  top:39.6%;  width:180px; height:61px; }
+  .b9 span{ --tilt:6.13deg; }
+
+  /* ---------- approach: compact section, scroll-linked highlight/image ---------- */
+  .approach-head{ padding:60px 120px 0; }
+  .approach-head h2{
+    font-size:clamp(28px,5vw,48px);
+    font-weight:600;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+    margin:0;
+    perspective:800px;
+  }
+  .approach-head h2 .highlight{
+    background:var(--navy);
+    color:var(--white);
+    padding:4px 14px;
+    display:inline-block;
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+    animation:approachFlip 2s ease-in-out infinite;
+  }
+  @keyframes approachFlip{
+    0%, 70%{ transform:rotateY(0deg); }
+    85%{ transform:rotateY(180deg); }
+    100%{ transform:rotateY(360deg); }
+  }
+  .scrolly{ padding:60px 0 80px; }
+  .scrolly__pin{
+    display:flex;
+    align-items:center;
+  }
+  .scrolly__inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:80px;
+    width:100%;
+    padding:0 120px;
+    box-sizing:border-box;
+  }
+  .scrolly__steps{
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+    font-size:clamp(20px,2.6vw,32px);
+    font-weight:500;
+    flex:1 1 380px;
+  }
+  .scrolly__steps li{
+    color:var(--navy-50);
+    font-weight:500;
+    cursor:pointer;
+    width:fit-content;
+    padding-left:16px;
+    border-left:3px solid transparent;
+    transition:color .4s cubic-bezier(.4,0,.2,1), font-weight .4s cubic-bezier(.4,0,.2,1), transform .4s cubic-bezier(.4,0,.2,1), border-color .3s ease, padding-left .3s ease;
+  }
+  .scrolly__steps li:hover{
+    color:var(--navy);
+    padding-left:22px;
+  }
+  .scrolly__steps li.is-active{
+    color:var(--navy);
+    font-weight:700;
+    border-left-color:var(--navy);
+  }
+  .scrolly__visual{
+    position:relative;
+    flex:1 1 380px;
+    max-width:417px;
+    aspect-ratio:417/358;
+    background:var(--navy);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 30px 60px rgba(23,49,72,.25);
+  }
+  .scrolly__visual svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .scrolly__img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transform:scale(1.05) translateY(16px);
+    transition:opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1);
+  }
+  .scrolly__img.is-active{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+  @media (max-width:900px){
+    .approach-head{ padding:64px 24px 0; }
+    .scrolly{ height:auto; }
+    .scrolly__pin{
+      position:static;
+      height:auto;
+      padding:40px 0;
+    }
+    .scrolly__inner{
+      flex-direction:column;
+      padding:0 24px;
+      gap:40px;
+    }
+    .scrolly__visual{ width:100%; max-width:none; }
+  }
+
+  /* ---------- contact / footer ---------- */
+  .contact{
+    position:relative;
+    overflow:hidden;
+    padding:100px 120px 220px;
+  }
+  .contact__watermark{
+    position:absolute;
+    left:50%;
+    bottom:-6%;
+    transform:translateX(-50%);
+    width:100%;
+    text-align:center;
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(60px, 14vw, 220px);
+    line-height:1;
+    letter-spacing:2px;
+    color:transparent;
+    background:linear-gradient(180deg, rgba(23,49,72,.16) 0%, rgba(23,49,72,.04) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:0;
+    user-select:none;
+  }
+  .contact__watermark .wm-letter{
+    display:inline-block;
+  }
+  .contact__inner{ z-index:1; }
+  .contact__inner{
+    position:relative;
+    max-width:none;
+    margin:0;
+  }
+  .contact h2{ margin:0; font-weight:400; font-size:clamp(20px,3vw,28px); }
+  .contact h2.bold{ font-weight:700; font-size:clamp(30px,6vw,48px); margin-top:8px; }
+  .contact__links{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    margin:44px 0;
+  }
+  .contact__link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:var(--font-body);
+    font-size:20px;
+  }
+  .contact__link svg{ width:26px; height:26px; flex-shrink:0; }
+  .contact__divider{
+    border:none;
+    border-top:1px solid rgba(23,49,72,.3);
+    margin:0 0 28px;
+  }
+  .contact__social{ display:flex; gap:20px; }
+  .contact__social a{
+    width:40px; height:40px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--navy);
+    border-radius:50%;
+    background:rgba(255,255,255,.6);
+    transition:background .2s ease, transform .2s ease;
+  }
+  .contact__social a:hover{ background:#fff; transform:translateY(-2px) scale(1.08); }
+  .contact__social svg{ width:20px; height:20px; }
+
+  /* soft ambient glow so the closing section doesn't feel flat */
+  .contact::before{
+    content:'';
+    position:absolute;
+    top:-120px; right:-120px;
+    width:420px; height:420px;
+    background:radial-gradient(circle, rgba(23,49,72,.12), transparent 70%);
+    border-radius:50%;
+    animation:contactGlow 6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes contactGlow{
+    0%,100%{ transform:translate(0,0) scale(1); opacity:.7; }
+    50%{ transform:translate(-30px,30px) scale(1.15); opacity:1; }
+  }
+
+  /* scroll-reveal for headings/links/socials */
+  .contact-reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);
+  }
+  .contact-reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  .contact__link{
+    transition:transform .25s ease, color .25s ease;
+  }
+  .contact__link:hover{ transform:translateX(6px); color:var(--navy); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:960px){
+    .nav-outer{ padding:0 12px; }
+    .nav__links{ display:none; }
+    .beyond__stage{ aspect-ratio:auto; padding:8px 0 32px; display:flex; flex-direction:column; }
+    .beyond__content{ position:static; transform:none; order:1; margin:0 auto 32px; max-width:100%; }
+    .beyond__badges{
+      position:static;
+      height:auto;
+      order:2;
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      justify-content:center;
+    }
+    .beyond__badge{ position:static !important; width:auto !important; height:auto !important; }
+  }
+  @media (max-width:960px){
+    .section{ padding:64px 40px; }
+    .beyond{ padding:80px 40px; }
+    .contact{ padding:80px 40px 140px; }
+  }
+  @media (max-width:640px){
+    .hero{ padding:100px 20px 20px; }
+    .section{ padding:56px 20px; }
+    .beyond{ padding:64px 20px; }
+    .contact{ padding:64px 20px 110px; }
+    .contact__watermark{ bottom:-2%; letter-spacing:0; }
+    .work-card{ padding:40px 20px; }
+    .contact__links{ margin:32px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg">
+  <div class="nav-outer">
+    <nav class="nav">
+      <a class="nav__logo" href="#hero">Sai.</a>
+      <div class="nav__links">
+        <a href="#about">About Me</a>
+        <a href="#work">Featured Work</a>
+        <a href="#gallery">Design Gallery</a>
+        <a href="#approach">Approach</a>
+      </div>
+      <div class="nav__right">
+        <a class="btn" href="#contact">Lets Talk</a>
+      </div>
+    </nav>
+  </div>
+
+  <section class="hero" id="hero">
+    <canvas class="hero__mesh" aria-hidden="true"></canvas>
+    <div class="hero__inner">
+      <div class="hero__eyes" aria-hidden="true">
+        <div class="eye"><div class="pupil"></div></div>
+        <div class="eye"><div class="pupil"></div></div>
+      </div>
+      <div class="hero__badges">
+        <span class="badge badge--navy">UI/UX Designer</span>
+        <span class="badge badge--yellow">Vibe Coder</span>
+      </div>
+      <h1><span class="wave-emoji">👋</span> Hello, I'm Akula Sai</h1>
+      <p>UX Designer | Making every tap a story ✨<br>
+      🎨 Sketches wireframes into clear journeys 🧩 Solves problems with creative thinking 📱 Designs that simplify, not complicate 🌟 Finds inspiration in everyday moments</p>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee__track">
+      <span class="marquee__item">Exploring Complexity Through Design</span>
+      <span class="marquee__item">Crafting Intuitive Digital Experiences</span>
+      <span class="marquee__item">Designing for Humans, Not Screens</span>
+      <span class="marquee__item">Turning Ideas Into Experiences</span>
+      <span class="marquee__item">Guided by Curiosity</span>
+      <span class="marquee__item">Exploring Complexity Through Design</span>
+      <span class="marquee__item">Crafting Intuitive Digital Experiences</span>
+      <span class="marquee__item">Designing for Humans, Not Screens</span>
+      <span class="marquee__item">Turning Ideas Into Experiences</span>
+      <span class="marquee__item">Guided by Curiosity</span>
+    </div>
+  </div>
+</div>
+
+<section class="section about-section" id="about">
+  <div class="wrap">
+    <div class="about__grid">
+      <div class="about__text">
+        <h2 class="about__heading">a little about myself</h2>
+        <div class="about__paras">
+          <p>I'm Akula Sai, a UI/UX Designer passionate about <span class="kp">creating intuitive, user-centered digital experiences that simplify complexity.</span> I enjoy solving real-world problems through thoughtful design, whether it's for learning platforms, enterprise products, or modern web applications.</p>
+          <p>I'm driven by curiosity and believe that <span class="kp">great products are built where user needs, business goals, and attention to detail come together.</span> I'm constantly learning, experimenting with new ideas, and exploring how design and technology can create meaningful experiences.</p>
+          <p>Beyond design, I enjoy playing online games, watching movies, and finding inspiration in the creativity and performances of Michael Jackson. As I continue growing as a designer, my goal is to build products that are not only visually appealing but also <span class="kp">impactful, accessible, and enjoyable to use.</span></p>
+        </div>
+        <div class="about__signature">Akula Sai.</div>
+      </div>
+      <div class="about__profile" id="aboutProfileAnchor">
+        <div class="polaroid" id="travelingPolaroid">
+          <div class="polaroid__photo">
+            <!-- Drop your photo alongside this file and update the src below -->
+            <img id="polaroidImgAbout" src="ChatGPT Image Jul 15, 2026, 04_23_27 PM.png" alt="Sai, UI/UX Designer" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex';">
+            <img id="polaroidImgExp" src="experience.png" alt="Sai at work" style="opacity:0;">
+            <div class="polaroid__fallback" style="display:none;">Add your photo here<br>(sai-photo.jpg)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" id="experience">
+  <div class="wrap">
+    <div class="section__head"><span class="pill-heading">Experience</span></div>
+    <div class="exp-layout">
+      <div class="exp-layout__main">
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-card">
+              <div class="timeline-role">UI/UX Designer</div>
+              <div class="timeline-company">upGrad School of Technology</div>
+              <div class="timeline-date">December 2025 — Present <span class="timeline-current">Current</span></div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-card">
+              <div class="timeline-role">UI/UX Designer</div>
+              <div class="timeline-company">Cixcent Technologies Private Limited</div>
+              <div class="timeline-date">May 2025 — December 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- the About Me photo animates into this slot as you scroll through Experience (desktop only) -->
+      <div class="exp-photo-slot" id="expPhotoSlot"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section__head"><span class="pill-heading">Featured work</span></div>
+    <!-- Featured work cards stack on scroll (like Sanjay Menon's portfolio reference): each card sticks in place and the next one slides up to cover it. -->
+    <div class="featured-stack">
+    <div class="featured-card featured-card--linked" data-link="https://www.getikk.com/home">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__meta">SaaS Platform&nbsp;&nbsp;·&nbsp;&nbsp;WhatsApp Automation</div>
+        <div class="featured-card__logo">
+          <img src="Getikk Logo.png" alt="Getikk logo">
+        </div>
+        <div class="featured-card__text">
+          <h3>WhatsApp Business Automation</h3>
+          <p>Designed and developed the complete marketing website for Getikk, creating a modern, responsive, and conversion-focused experience that effectively communicates the product's value.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="Getikk image.png" alt="Getikk WhatsApp business automation mockup">
+      </div>
+    </div>
+
+    <!-- Second featured project — add the ERP24K dashboard collage image to the Portfolio folder as "ERP24K Schemes.png" (or update the src below) to complete this card -->
+    <div class="featured-card featured-card--erp featured-card--linked" data-link="https://schemes.erp24k.com/">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="erp-head">
+        <div class="erp-head__title">
+          <div class="featured-card__meta">Jewellery SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Marketing Website</div>
+          <h3>ERP24K Jewellery<span class="accent">Schemes</span></h3>
+        </div>
+        <p class="erp-head__desc">Designed a conversion-focused marketing website that showcases ERP24K's digital jewellery savings scheme platform with a modern, user-centric experience.</p>
+      </div>
+      <div class="erp-mockup">
+        <img src="Schemes.png" alt="ERP24K Jewellery Schemes dashboard mockup">
+      </div>
+    </div>
+
+    <!-- Third featured project — add the ERP24K device-collage mockup to the Portfolio folder as "ERP24K ERP.png" (or update the src below) to complete this card -->
+    <div class="featured-card featured-card--erp featured-card--erp2 featured-card--linked" data-link="https://www.figma.com/design/R3P5JV4zLQWLGncr7aKEul/ERP24K?node-id=1-2674&t=kAGflVp6MqgHN7xm-1">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__meta">Enterprise Software&nbsp;&nbsp;·&nbsp;&nbsp;ERP Application</div>
+        <div class="featured-card__text">
+          <h3>ERP24K Jewellery <span class="accent">ERP</span></h3>
+          <p>Designed a comprehensive ERP application that helps jewellery retailers manage inventory, billing, sales, customer relationships, accounting, and day-to-day operations from a single platform.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="ERP24K.png" alt="ERP24K Jewellery ERP device mockup">
+      </div>
+    </div>
+
+    <!-- Fourth featured project -->
+    <div class="featured-card featured-card--aimerz featured-card--linked" data-link="https://aimerz.ai/">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__meta">EdTech Platform&nbsp;&nbsp;·&nbsp;&nbsp;Website Design</div>
+        <div class="featured-card__logo"><img src="Aimerz.ai logo.png" alt="Aimerz.ai logo"></div>
+        <div class="featured-card__text">
+          <h3>India's First Job-Focused Learning Platform</h3>
+          <p>Designed a modern website that showcases job-focused learning programs, career acceleration, and industry partnerships through an engaging and conversion-driven digital experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="Aimerz.ai.png" alt="Aimerz.ai website mockup">
+      </div>
+    </div>
+
+    <!-- Fifth featured project -->
+    <div class="featured-card featured-card--upgrad featured-card--linked" data-link="https://sot.upgrad.com/?utm_source=google&utm_medium=cpc&utm_campaign=brand_search_5thMay&utm_content=194929145926-807858041699&utm_term=upgrad+school+of+technology">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__meta">EdTech Platform&nbsp;&nbsp;·&nbsp;&nbsp;Website Design</div>
+        <div class="featured-card__logo"><img src="sot logo.png" alt="upGrad School of Technology logo"></div>
+        <div class="featured-card__text">
+          <h3>upGrad School of Technology</h3>
+          <p>Crafted a modern, conversion-focused website that showcases engineering programs, student success, and career opportunities through an intuitive user experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="sot.png" alt="upGrad School of Technology website mockup">
+      </div>
+    </div>
+
+    <!-- Sixth featured project -->
+    <div class="featured-card featured-card--renewbin featured-card--linked" data-link="https://www.figma.com/proto/MYVXwors73p02SvOIGVLfW/Projects?node-id=12-9246&viewport=309%2C102%2C0.11&t=ZdfaQBbIPDsuM2je-1&scaling=min-zoom&content-scaling=fixed&page-id=10%3A1705">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <img class="renewbin-illustration" src="RenewBin Illustartion.png" alt="">
+      <div class="featured-card__content">
+        <div class="featured-card__meta">Sustainability Platform&nbsp;&nbsp;·&nbsp;&nbsp;Product Design</div>
+        <div class="featured-card__text">
+          <h3 class="renewbin-title">RenewBin</h3>
+          <h4>Smart Waste Management for a Greener Tomorrow</h4>
+          <p>Designed a digital platform that simplifies waste collection, recycling, and sustainability tracking through an intuitive and user-friendly experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="RenewBin.png" alt="RenewBin app mockup">
+      </div>
+    </div>
+
+    <!-- Seventh featured project — add the Spin & Clean app screens mockup to the Portfolio folder as "Spin and Clean.png" (or update the src below) to complete this card -->
+    <div class="featured-card featured-card--spinclean featured-card--linked" data-link="https://www.figma.com/design/MYVXwors73p02SvOIGVLfW/Projects?node-id=12-2218&t=BnE3gYMxgnFzfINb-1">
+      <div class="featured-card__cursor-view"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></div>
+      <div class="featured-card__content">
+        <div class="featured-card__logo"><img src="Spin & Clean logo.png" alt="Spin & Clean logo"></div>
+        <div class="featured-card__meta">Service Platform&nbsp;&nbsp;·&nbsp;&nbsp;Product Design</div>
+        <div class="featured-card__text">
+          <h3 class="spinclean-title">Spin &amp; Clean</h3>
+          <h4>Making Laundry Simple, Fast, and Hassle-Free</h4>
+          <p>Designed a modern laundry service platform that enables users to schedule pickups, track orders, and manage laundry services through a seamless digital experience.</p>
+        </div>
+      </div>
+      <div class="featured-card__mockup">
+        <img src="Spin & Clean.png" alt="Spin & Clean app mockup">
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="section__head"><span class="pill-heading">Design Gallery</span></div>
+    <!-- Auto-scrolls horizontally; pauses when the cursor is near/over a card. Swap the visual blocks for exported PNGs when ready. -->
+    <div class="gallery-viewport">
+      <div class="gallery-track" id="galleryTrack">
+        <div class="gallery-card" data-bg="#f7dfa3" data-img="Jewellery ERP.png" data-title="Jewellery ERP" data-desc="Designed a modern Jewellery ERP dashboard to help store owners monitor sales, inventory, orders, profits, and customer insights from a single workspace.">
+          <div class="gallery-card__visual" style="background:#f7dfa3;"><img src="Jewellery ERP.png" alt="Jewellery ERP Dashboard"></div>
+          <div class="gallery-card__body"><h3>Jewellery ERP</h3></div>
+        </div>
+        <div class="gallery-card" data-bg="#c8c9e5" data-img="RTA M-Wallet.png" data-title="RTA M-Wallet" data-desc="Redesigned the Telangana M-Wallet mobile app during a UX hackathon, improving usability, visual hierarchy, and accessibility. Secured 2nd Prize.">
+          <div class="gallery-card__visual" style="background:#c8c9e5;"><img src="RTA M-Wallet.png" alt="RTA M-Wallet redesign"></div>
+          <div class="gallery-card__body"><h3>RTA M-Wallet</h3></div>
+        </div>
+        <div class="gallery-card" data-bg="#173148" data-img="Critiquing Android Calculator App.png" data-title="Critiquing Android Calculator App" data-desc="Critiqued the Android Calculator app across iQOO, Redmi, Realme, and Oppo to identify usability, accessibility, and UI improvement opportunities, comparing layout consistency, button hierarchy, and visual feedback across each manufacturer's implementation.">
+          <div class="gallery-card__visual" style="background:#173148;"><img src="Critiquing Android Calculator App.png" alt="Critiquing Android Calculator App"></div>
+          <div class="gallery-card__body"><h3>Critiquing Android Calculator App</h3></div>
+        </div>
+        <div class="gallery-card" data-bg="#c9dcf5" data-img="AI Chatbot for Healthcare.png" data-title="AI Chatbot for Healthcare" data-desc="Designed an AI-powered healthcare chatbot that guides users through symptom assessment with an intuitive conversational interface in both light and dark modes.">
+          <div class="gallery-card__visual" style="background:#c9dcf5;"><img src="AI Chatbot for Healthcare.png" alt="AI Chatbot for Healthcare"></div>
+          <div class="gallery-card__body"><h3>AI Chatbot for Healthcare</h3></div>
+        </div>
+        <div class="gallery-card" data-bg="#bfe8e0" data-img="Community reporting app.png" data-title="Community Reporting App" data-desc="Designed a community reporting app that enables residents to report local issues, receive real-time alerts, and stay informed through a simple, intuitive mobile experience.">
+          <div class="gallery-card__visual" style="background:#bfe8e0;"><img src="Community reporting app.png" alt="Community Reporting App"></div>
+          <div class="gallery-card__body"><h3>Community Reporting App</h3></div>
+        </div>
+        <!-- duplicate set for seamless looping -->
+        <div class="gallery-card" aria-hidden="true" data-bg="#f7dfa3" data-img="Jewellery ERP.png" data-title="Jewellery ERP" data-desc="Designed a modern Jewellery ERP dashboard to help store owners monitor sales, inventory, orders, profits, and customer insights from a single workspace.">
+          <div class="gallery-card__visual" style="background:#f7dfa3;"><img src="Jewellery ERP.png" alt="Jewellery ERP Dashboard"></div>
+          <div class="gallery-card__body"><h3>Jewellery ERP</h3></div>
+        </div>
+        <div class="gallery-card" aria-hidden="true" data-bg="#c8c9e5" data-img="RTA M-Wallet.png" data-title="RTA M-Wallet" data-desc="Redesigned the Telangana M-Wallet mobile app during a UX hackathon, improving usability, visual hierarchy, and accessibility. Secured 2nd Prize.">
+          <div class="gallery-card__visual" style="background:#c8c9e5;"><img src="RTA M-Wallet.png" alt="RTA M-Wallet redesign"></div>
+          <div class="gallery-card__body"><h3>RTA M-Wallet</h3></div>
+        </div>
+        <div class="gallery-card" aria-hidden="true" data-bg="#173148" data-img="Critiquing Android Calculator App.png" data-title="Critiquing Android Calculator App" data-desc="Critiqued the Android Calculator app across iQOO, Redmi, Realme, and Oppo to identify usability, accessibility, and UI improvement opportunities, comparing layout consistency, button hierarchy, and visual feedback across each manufacturer's implementation.">
+          <div class="gallery-card__visual" style="background:#173148;"><img src="Critiquing Android Calculator App.png" alt="Critiquing Android Calculator App"></div>
+          <div class="gallery-card__body"><h3>Critiquing Android Calculator App</h3></div>
+        </div>
+        <div class="gallery-card" aria-hidden="true" data-bg="#c9dcf5" data-img="AI Chatbot for Healthcare.png" data-title="AI Chatbot for Healthcare" data-desc="Designed an AI-powered healthcare chatbot that guides users through symptom assessment with an intuitive conversational interface in both light and dark modes.">
+          <div class="gallery-card__visual" style="background:#c9dcf5;"><img src="AI Chatbot for Healthcare.png" alt="AI Chatbot for Healthcare"></div>
+          <div class="gallery-card__body"><h3>AI Chatbot for Healthcare</h3></div>
+        </div>
+        <div class="gallery-card" aria-hidden="true" data-bg="#bfe8e0" data-img="Community reporting app.png" data-title="Community Reporting App" data-desc="Designed a community reporting app that enables residents to report local issues, receive real-time alerts, and stay informed through a simple, intuitive mobile experience.">
+          <div class="gallery-card__visual" style="background:#bfe8e0;"><img src="Community reporting app.png" alt="Community Reporting App"></div>
+          <div class="gallery-card__body"><h3>Community Reporting App</h3></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery-popup" id="galleryPopup" aria-hidden="true">
+  <div class="gallery-popup__card">
+    <div class="gallery-popup__visual" id="galleryPopupVisual">
+      <img id="galleryPopupImg" src="" alt="">
+    </div>
+    <div class="gallery-popup__body">
+      <h3 id="galleryPopupTitle"></h3>
+      <p id="galleryPopupDesc"></p>
+    </div>
+  </div>
+</div>
+
+<section class="beyond" id="beyond">
+  <div class="beyond__stage">
+    <div class="beyond__content">
+      <h2>Beyond the <span class="highlight">Interface</span></h2>
+      <p>Design is only part of my story. Here are the passions, curiosities, and inspirations that influence my perspective and creative process.</p>
+    </div>
+    <div class="beyond__badges">
+      <div class="beyond__badge b1"><span style="--tilt:-27.72deg;">Gamer</span></div>
+      <div class="beyond__badge b2"><span style="--tilt:6.05deg;">Michael Jackson Fan</span></div>
+      <div class="beyond__badge b3"><span style="--tilt:-5.63deg;">Always Exploring</span></div>
+      <div class="beyond__badge b4"><span style="--tilt:-13.74deg;">Orbiting Around Ideas</span></div>
+      <div class="beyond__badge b5"><span style="--tilt:-19.52deg;">Inspired by Origami</span></div>
+      <div class="beyond__badge b6"><span style="--tilt:7.54deg;">AI Explorer</span></div>
+      <div class="beyond__badge b7"><span style="--tilt:-6.81deg;">Weekend Cricketer</span></div>
+      <div class="beyond__badge b8"><span style="--tilt:-6.81deg;">Biryani Lover</span></div>
+      <div class="beyond__badge b9"><span style="--tilt:6.13deg;">Always Iterating</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="approach-head">
+    <h2>How I Approach <span class="highlight">Design</span></h2>
+  </div>
+  <div class="scrolly">
+    <div class="scrolly__pin">
+      <div class="scrolly__inner">
+        <ul class="scrolly__steps">
+          <li class="is-active" data-img="Understanding the Problem.png">Understanding the Problem</li>
+          <li data-img="Thinking Like the User.png">Thinking Like the User</li>
+          <li data-img="Exploring Insights.png">Exploring Insights</li>
+          <li data-img="Always Learning.png">Always Learning</li>
+          <li data-img="Structuring Solutions.png">Structuring Solutions</li>
+          <li data-img="Bringing Ideas to Life.png">Bringing Ideas to Life</li>
+        </ul>
+        <div class="scrolly__visual" aria-label="Illustration that changes as you scroll through the steps">
+          <svg viewBox="0 0 417 358" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <radialGradient id="glow" cx="50%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#24425e"/>
+                <stop offset="100%" stop-color="#173148"/>
+              </radialGradient>
+            </defs>
+            <rect width="417" height="358" fill="url(#glow)"/>
+          </svg>
+          <img class="scrolly__img is-active" data-key="Understanding the Problem.png" src="Understanding the Problem.png" alt="Understanding the Problem">
+          <img class="scrolly__img" data-key="Thinking Like the User.png" src="Thinking Like the User.png" alt="Thinking Like the User">
+          <img class="scrolly__img" data-key="Exploring Insights.png" src="Exploring Insights.png" alt="Exploring Insights">
+          <img class="scrolly__img" data-key="Always Learning.png" src="Always Learning.png" alt="Always Learning">
+          <img class="scrolly__img" data-key="Structuring Solutions.png" src="Structuring Solutions.png" alt="Structuring Solutions">
+          <img class="scrolly__img" data-key="Bringing Ideas to Life.png" src="Bringing Ideas to Life.png" alt="Bringing Ideas to Life">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact grid-bg" id="contact">
+  <div class="contact__watermark" aria-hidden="true">AKULA SAI</div>
+  <div class="contact__inner">
+    <h2 class="contact-reveal" style="transition-delay:0s">Let's build the</h2>
+    <h2 class="bold contact-reveal" style="transition-delay:.08s">Next great mission</h2>
+    <h2 class="bold contact-reveal" style="transition-delay:.16s">together</h2>
+
+    <div class="contact__links contact-reveal" style="transition-delay:.28s">
+      <a class="contact__link" href="mailto:saiakula620@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#173148" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        saiakula620@gmail.com
+      </a>
+      <a class="contact__link" href="tel:9347436818">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#173148" stroke-width="1.6"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.3c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
+        9347436818
+      </a>
+    </div>
+
+    <hr class="contact__divider contact-reveal" style="transition-delay:.36s">
+
+    <div class="contact__social contact-reveal" style="transition-delay:.44s">
+      <a href="https://www.linkedin.com/in/akula-sai-31b303275/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H4v11h2.94v-11zM5.47 7.2a1.7 1.7 0 100-3.4 1.7 1.7 0 000 3.4zM20 13.3c0-3-1.6-4.4-3.75-4.4-1.73 0-2.5.95-2.94 1.62V8.5H10.4c.04.86 0 11 0 11h2.94v-6.14c0-.33.02-.66.12-.9.26-.66.86-1.34 1.87-1.34 1.32 0 1.85 1 1.85 2.47V19.5H20V13.3z"/></svg>
+      </a>
+      <a href="https://www.behance.net/akulasai" target="_blank" rel="noopener" aria-label="Behance">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 7h5.2c2.9 0 3.9 1.3 3.9 3a2.6 2.6 0 01-1.6 2.5A2.8 2.8 0 0113.6 15c0 2-1.4 3.3-4.2 3.3H4V7zm2.4 4.5h2.4c1.1 0 1.8-.4 1.8-1.3 0-.9-.7-1.2-1.8-1.2H6.4v2.5zm0 4.8h2.6c1.3 0 2-.5 2-1.5s-.7-1.4-2-1.4H6.4v2.9zM14.6 8.8h5.2V10h-5.2V8.8zM20.7 14.9h-6c.1 1.2.9 1.9 2 1.9.8 0 1.4-.3 1.7-1h2c-.4 1.6-1.8 2.6-3.7 2.6-2.5 0-4.2-1.7-4.2-4.3 0-2.5 1.7-4.4 4.1-4.4 2.6 0 4.1 1.9 4.1 4.5v.7zm-6-1.5h3.9c-.1-1.1-.8-1.8-1.9-1.8-1 0-1.8.6-2 1.8z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/its_sj93/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+
+  // --- hero: floating chips/arrows converge toward center as you scroll ---
+  var heroEl = document.getElementById('hero');
+  if (heroEl){
+    var ticking = false;
+    function updateHeroScroll(){
+      var rect = heroEl.getBoundingClientRect();
+      var progress = Math.min(1, Math.max(0, -rect.top / rect.height));
+      heroEl.style.setProperty('--p', progress.toFixed(3));
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking){ requestAnimationFrame(updateHeroScroll); ticking = true; }
+    }, { passive:true });
+    window.addEventListener('resize', updateHeroScroll);
+    updateHeroScroll();
+
+
+    // --- hero: warped mesh grid that bulges away from the cursor ---
+    var canvas = heroEl.querySelector('.hero__mesh');
+    if (canvas && canvas.getContext){
+      var ctx = canvas.getContext('2d');
+      var cols, rows, pts = [];
+      var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+      var W = 0, H = 0;
+      var focal = { x:0, y:0 };   // smoothed "bulge center" — eases toward the cursor
+      var target = { x:0, y:0 }; // where the bulge center wants to be right now
+
+      function buildGrid(){
+        var w = heroEl.clientWidth, h = heroEl.clientHeight;
+        W = w; H = h;
+        canvas.width = w * DPR;
+        canvas.height = h * DPR;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        var spacing = 56;
+        var pad = 2; // extra rows/cols of margin so edges are never uncovered
+        cols = Math.ceil(w / spacing) + pad * 2;
+        rows = Math.ceil(h / spacing) + pad * 2;
+        pts = [];
+        for (var j = 0; j < rows; j++){
+          for (var i = 0; i < cols; i++){
+            var bx = (i - pad) * spacing;
+            var by = (j - pad) * spacing;
+            pts.push({ bx:bx, by:by, x:bx, y:by });
+          }
+        }
+        // default focal point: center of the hero, so the bulge is always present
+        target.x = w / 2; target.y = h / 2;
+        if (!focal.x && !focal.y){ focal.x = target.x; focal.y = target.y; }
+      }
+      buildGrid();
+      window.addEventListener('resize', buildGrid);
+      window.addEventListener('load', buildGrid);
+      setTimeout(buildGrid, 300);
+
+      heroEl.addEventListener('mousemove', function(e){
+        var r = heroEl.getBoundingClientRect();
+        target.x = e.clientX - r.left;
+        target.y = e.clientY - r.top;
+      });
+      heroEl.addEventListener('mouseleave', function(){
+        target.x = W / 2; target.y = H / 2;
+      });
+
+      var STRENGTH = 70;
+
+      function frame(){
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        // ease the bulge center toward wherever the cursor currently is
+        focal.x += (target.x - focal.x) * 0.045;
+        focal.y += (target.y - focal.y) * 0.045;
+
+        var RADIUS = Math.max(W, H) * 0.55 || 400;
+
+        for (var k = 0; k < pts.length; k++){
+          var p = pts[k];
+          var dx = p.bx - focal.x, dy = p.by - focal.y;
+          var dist = Math.sqrt(dx*dx + dy*dy) || 0.0001;
+          // smooth radial falloff (no hard edge) so the whole grid curves like a dome
+          var falloff = Math.exp(-(dist * dist) / (2 * RADIUS * RADIUS));
+          var tx = p.bx + (dx / dist) * STRENGTH * falloff;
+          var ty = p.by + (dy / dist) * STRENGTH * falloff;
+          p.x += (tx - p.x) * 0.14;
+          p.y += (ty - p.y) * 0.14;
+        }
+
+        ctx.strokeStyle = 'rgba(23,49,72,.09)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var j = 0; j < rows; j++){
+          for (var i = 0; i < cols; i++){
+            var idx = j * cols + i;
+            var pt = pts[idx];
+            if (i < cols - 1){
+              var right = pts[idx + 1];
+              ctx.moveTo(pt.x, pt.y); ctx.lineTo(right.x, right.y);
+            }
+            if (j < rows - 1){
+              var down = pts[idx + cols];
+              ctx.moveTo(pt.x, pt.y); ctx.lineTo(down.x, down.y);
+            }
+          }
+        }
+        ctx.stroke();
+
+        for (var k2 = 0; k2 < pts.length; k2++){
+          var pd = pts[k2];
+          var accent = k2 % 7 === 0;
+          ctx.beginPath();
+          ctx.arc(pd.x, pd.y, accent ? 3 : 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = accent ? 'rgba(213,217,254,.95)' : 'rgba(23,49,72,.22)';
+          ctx.fill();
+        }
+
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // --- experience: timeline cards fade/slide in as they enter view ---
+    var timelineItems = document.querySelectorAll('.timeline-item');
+    if (timelineItems.length){
+      if ('IntersectionObserver' in window){
+        var timelineObserver = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting){
+              entry.target.classList.add('in-view');
+              timelineObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold:0.2 });
+        timelineItems.forEach(function(item){ timelineObserver.observe(item); });
+      } else {
+        timelineItems.forEach(function(item){ item.classList.add('in-view'); });
+      }
+    }
+
+    // --- about me: polaroid tilts in 3D toward the cursor (desktop only — no animation on mobile/tablet) ---
+    var aboutProfile = document.getElementById('aboutProfileAnchor');
+    var polaroid = document.getElementById('travelingPolaroid');
+    if (aboutProfile && polaroid) {
+      var maxTilt = 16;
+      var tiltMQ = window.matchMedia('(min-width: 900px)');
+      aboutProfile.addEventListener('mousemove', function(e){
+        if (!tiltMQ.matches) return;
+        var r = aboutProfile.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        polaroid.style.transform =
+          'rotate(-4deg) rotateX(' + (-y * maxTilt).toFixed(2) + 'deg) rotateY(' + (x * maxTilt).toFixed(2) + 'deg) scale(1.04)';
+      });
+      aboutProfile.addEventListener('mouseleave', function(){
+        if (!tiltMQ.matches) return;
+        polaroid.style.transform = 'rotate(-4deg)';
+      });
+    }
+
+    // --- about photo travels from the About slot to the Experience slot as you scroll ---
+    // desktop-only: on tablet/mobile the photo just stays static after the content, no animation
+    var expSlot = document.getElementById('expPhotoSlot');
+    if (aboutProfile && polaroid && expSlot) {
+      var travelMQ = window.matchMedia('(min-width: 900px)');
+      var scrollPhoto = null;
+      var travelScrollHandler = null;
+      var travelResizeHandler = null;
+
+      // shared with the "landed card tilts toward cursor" listeners below,
+      // so they must live in this outer scope, not inside setupTravel()
+      var expImg = document.getElementById('polaroidImgExp');
+      var baseRotate = -4;
+      var expTiltX = 0, expTiltY = 0, expScale = 1;
+      var expLanded = false;
+      var maxExpTilt = 14;
+
+      function applyPolaroidTransform(){
+        polaroid.style.transform =
+          'rotate(' + baseRotate.toFixed(2) + 'deg) rotateX(' + expTiltX.toFixed(2) + 'deg) rotateY(' + expTiltY.toFixed(2) + 'deg) scale(' + expScale.toFixed(3) + ')';
+      }
+
+      function teardownTravel(){
+        if (!scrollPhoto) return;
+        window.removeEventListener('scroll', travelScrollHandler);
+        window.removeEventListener('resize', travelResizeHandler);
+        aboutProfile.appendChild(polaroid);
+        baseRotate = -4; expTiltX = 0; expTiltY = 0; expScale = 1; expLanded = false;
+        polaroid.style.transform = 'rotate(-4deg)';
+        if (expImg) expImg.style.opacity = 0;
+        scrollPhoto.remove();
+        scrollPhoto = null;
+      }
+
+      function setupTravel(){
+        if (scrollPhoto) return;
+        if (window.innerWidth < 900) return; // safety net: never fix/animate on narrow screens
+        scrollPhoto = document.createElement('div');
+        scrollPhoto.className = 'scroll-photo';
+        scrollPhoto.appendChild(polaroid);
+        document.body.appendChild(scrollPhoto);
+
+        var aboutDocTop = 0, expDocTop = 0;
+        function measureTravel(){
+          aboutDocTop = aboutProfile.getBoundingClientRect().top + window.scrollY;
+          expDocTop = expSlot.getBoundingClientRect().top + window.scrollY;
+        }
+        measureTravel();
+
+        var travelTicking = false;
+        function updateTravel(){
+          var aboutRect = aboutProfile.getBoundingClientRect();
+          var expRect = expSlot.getBoundingClientRect();
+          var span = expDocTop - aboutDocTop;
+          var progress = span > 0
+            ? Math.min(1, Math.max(0, (window.scrollY + window.innerHeight * 0.42 - aboutDocTop) / span))
+            : 0;
+
+          var left = aboutRect.left + (expRect.left - aboutRect.left) * progress;
+          var top = aboutRect.top + (expRect.top - aboutRect.top) * progress;
+          baseRotate = -4 + 8 * progress;
+
+          scrollPhoto.style.transform = 'translate(' + left.toFixed(1) + 'px, ' + top.toFixed(1) + 'px)';
+          expLanded = progress >= 0.7;
+          if (!expLanded){ expTiltX = 0; expTiltY = 0; expScale = 1; }
+          applyPolaroidTransform();
+
+          // crossfade to the "experience" photo once the card has (mostly) arrived
+          if (expImg){
+            expImg.style.opacity = progress > 0.85 ? ((progress - 0.85) / 0.15).toFixed(2) : 0;
+          }
+
+          var inRange = window.scrollY + window.innerHeight > aboutDocTop && window.scrollY < expDocTop + expSlot.offsetHeight + 200;
+          scrollPhoto.classList.toggle('is-active', inRange);
+          travelTicking = false;
+        }
+        travelScrollHandler = function(){
+          if (!travelTicking){ requestAnimationFrame(updateTravel); travelTicking = true; }
+        };
+        travelResizeHandler = function(){ measureTravel(); requestAnimationFrame(updateTravel); };
+        window.addEventListener('scroll', travelScrollHandler, { passive:true });
+        window.addEventListener('resize', travelResizeHandler);
+        updateTravel();
+      }
+
+      function syncTravel(mq){
+        if (mq.matches){ setupTravel(); } else { teardownTravel(); }
+      }
+      syncTravel(travelMQ);
+      if (travelMQ.addEventListener){
+        travelMQ.addEventListener('change', syncTravel);
+      } else if (travelMQ.addListener){
+        travelMQ.addListener(syncTravel);
+      }
+      // extra safety: some environments don't fire the matchMedia change event on resize
+      window.addEventListener('resize', function(){ syncTravel(travelMQ); });
+
+      // --- experience: landed card tilts in 3D toward the cursor, same as About ---
+      expSlot.addEventListener('mousemove', function(e){
+        if (!expLanded) return;
+        var r = expSlot.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        expTiltX = -y * maxExpTilt;
+        expTiltY = x * maxExpTilt;
+        expScale = 1.04;
+        applyPolaroidTransform();
+      });
+      expSlot.addEventListener('mouseleave', function(){
+        expTiltX = 0; expTiltY = 0; expScale = 1;
+        applyPolaroidTransform();
+      });
+    }
+
+    // --- hero: googly eyes follow the cursor ---
+    var pupils = heroEl.querySelectorAll('.eye .pupil');
+    if (pupils.length){
+      document.addEventListener('mousemove', function(e){
+        pupils.forEach(function(pupil){
+          var eye = pupil.parentElement;
+          var r = eye.getBoundingClientRect();
+          var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          var angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+          var maxMove = r.width * 0.22;
+          var px = Math.cos(angle) * maxMove, py = Math.sin(angle) * maxMove;
+          pupil.style.transform = 'translate(calc(-50% + ' + px.toFixed(1) + 'px), calc(-50% + ' + py.toFixed(1) + 'px))';
+        });
+      });
+    }
+  }
+
+  // --- beyond the interface: chips are draggable toys, play with them ---
+  (function(){
+    var badges = document.querySelectorAll('.beyond__badge');
+    if (!badges.length) return;
+    badges.forEach(function(badge){
+      var dragging = false;
+      var startX = 0, startY = 0;
+      var offsetX = 0, offsetY = 0; // accumulated drag offset from original Figma spot
+      var bounds = badge.closest('.beyond'); // the whole section, so chips can roam its full space
+
+      function setTransform(x, y, scale){
+        badge.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + scale + ')';
+      }
+
+      badge.addEventListener('pointerdown', function(e){
+        dragging = true;
+        badge.classList.add('is-dragging');
+        badge.style.transition = 'none';
+        badge.setPointerCapture(e.pointerId);
+        startX = e.clientX;
+        startY = e.clientY;
+        setTransform(offsetX, offsetY, 1.12);
+      });
+
+      badge.addEventListener('pointermove', function(e){
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        var dy = e.clientY - startY;
+        var newOffsetX = offsetX + dx;
+        var newOffsetY = offsetY + dy;
+
+        // let the chip roam the whole section, only stopping it from leaving entirely
+        if (bounds){
+          var boundsRect = bounds.getBoundingClientRect();
+          var badgeRect = badge.getBoundingClientRect();
+          var minX = boundsRect.left - badgeRect.left + offsetX - badgeRect.width * 0.3;
+          var maxX = boundsRect.right - badgeRect.right + offsetX + badgeRect.width * 0.3;
+          var minY = boundsRect.top - badgeRect.top + offsetY - badgeRect.height * 0.3;
+          var maxY = boundsRect.bottom - badgeRect.bottom + offsetY + badgeRect.height * 0.3;
+          newOffsetX = Math.min(Math.max(newOffsetX, minX), maxX);
+          newOffsetY = Math.min(Math.max(newOffsetY, minY), maxY);
+        }
+
+        setTransform(newOffsetX, newOffsetY, 1.12);
+        badge.dataset.pendingX = newOffsetX;
+        badge.dataset.pendingY = newOffsetY;
+      });
+
+      function endDrag(e){
+        if (!dragging) return;
+        dragging = false;
+        badge.classList.remove('is-dragging');
+        if (badge.dataset.pendingX !== undefined){
+          offsetX = parseFloat(badge.dataset.pendingX);
+          offsetY = parseFloat(badge.dataset.pendingY);
+        }
+        // bouncy settle: spring back down to normal scale with an overshoot easing
+        badge.style.transition = 'transform .55s cubic-bezier(.34,1.7,.4,1)';
+        setTransform(offsetX, offsetY, 1);
+        try { badge.releasePointerCapture(e.pointerId); } catch(err){}
+      }
+      badge.addEventListener('pointerup', endDrag);
+      badge.addEventListener('pointercancel', endDrag);
+    });
+  })();
+
+  // --- "Interface" highlight: 3D parallax toward the cursor ---
+  (function(){
+    var beyondSection = document.getElementById('beyond');
+    var highlight = beyondSection && beyondSection.querySelector('.beyond h2 .highlight');
+    if (!beyondSection || !highlight) return;
+    var maxTilt = 22, liftZ = 40;
+    beyondSection.addEventListener('mousemove', function(e){
+      var r = beyondSection.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      highlight.style.transform =
+        'perspective(800px) rotateX(' + (-y * maxTilt).toFixed(2) + 'deg) rotateY(' + (x * maxTilt).toFixed(2) + 'deg) translateZ(' + liftZ + 'px)';
+      highlight.style.boxShadow = '0 ' + (10 + Math.abs(y) * 20).toFixed(0) + 'px ' + (24 + Math.abs(x) * 20).toFixed(0) + 'px rgba(0,0,0,.35)';
+    });
+    beyondSection.addEventListener('mouseleave', function(){
+      highlight.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      highlight.style.boxShadow = '0 0 0 rgba(0,0,0,0)';
+    });
+  })();
+
+  // --- approach: compact section, highlight/image driven by clicking a step ---
+  (function(){
+    var wrapper = document.querySelector('.scrolly');
+    var steps = document.querySelectorAll('.scrolly__steps li');
+    var images = document.querySelectorAll('.scrolly__img');
+    if (!wrapper || !steps.length || !images.length) return;
+
+    function setActive(key){
+      steps.forEach(function(li){ li.classList.toggle('is-active', li.dataset.img === key); });
+      images.forEach(function(img){ img.classList.toggle('is-active', img.dataset.key === key); });
+    }
+
+    steps.forEach(function(li){
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){ setActive(li.dataset.img); });
+    });
+  })();
+
+  // --- design gallery: auto-scrolls horizontally, pauses when cursor nears a card ---
+  (function(){
+    var viewport = document.querySelector('.gallery-viewport');
+    var track = document.getElementById('galleryTrack');
+    if (!viewport || !track) return;
+
+    var PROXIMITY = 60; // px — how close the cursor must be to a card to pause
+
+    function nearAnyCard(clientX, clientY){
+      var cards = track.querySelectorAll('.gallery-card');
+      for (var i = 0; i < cards.length; i++){
+        var r = cards[i].getBoundingClientRect();
+        if (clientX >= r.left - PROXIMITY && clientX <= r.right + PROXIMITY &&
+            clientY >= r.top - PROXIMITY && clientY <= r.bottom + PROXIMITY){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    viewport.addEventListener('mousemove', function(e){
+      track.classList.toggle('is-paused', nearAnyCard(e.clientX, e.clientY));
+    });
+    viewport.addEventListener('mouseleave', function(){
+      track.classList.remove('is-paused');
+    });
+    // touch: pause on touch, resume shortly after lifting the finger
+    viewport.addEventListener('touchstart', function(){ track.classList.add('is-paused'); }, { passive:true });
+    viewport.addEventListener('touchend', function(){
+      setTimeout(function(){ track.classList.remove('is-paused'); }, 800);
+    }, { passive:true });
+  })();
+
+  // --- featured work: cursor-following "View" pill + click-through to the live project ---
+  // NOTE: cards currently link to "#" — swap each data-link value with the real project URL when ready.
+  (function(){
+    var cards = document.querySelectorAll('.featured-card--linked');
+    cards.forEach(function(card){
+      var pill = card.querySelector('.featured-card__cursor-view');
+      if (pill){
+        card.addEventListener('mousemove', function(e){
+          var r = card.getBoundingClientRect();
+          pill.style.left = (e.clientX - r.left) + 'px';
+          pill.style.top = (e.clientY - r.top) + 'px';
+        });
+      }
+      card.addEventListener('click', function(e){
+        var href = card.dataset.link;
+        if (href && href !== '#'){
+          window.open(href, '_blank', 'noopener');
+        }
+      });
+    });
+  })();
+
+  // --- design gallery: hover a card to pop up the full image + description ---
+  (function(){
+    var cards = document.querySelectorAll('.gallery-card');
+    var popup = document.getElementById('galleryPopup');
+    if (!cards.length || !popup) return;
+
+    var popupImg = document.getElementById('galleryPopupImg');
+    var popupTitle = document.getElementById('galleryPopupTitle');
+    var popupDesc = document.getElementById('galleryPopupDesc');
+    var popupVisual = document.getElementById('galleryPopupVisual');
+    var hideTimer = null;
+
+    cards.forEach(function(card){
+      if (card.dataset.bg) card.style.setProperty('--accent', card.dataset.bg);
+    });
+
+    function openPopup(card){
+      clearTimeout(hideTimer);
+      popupImg.src = card.dataset.img || '';
+      popupImg.alt = card.dataset.title || '';
+      popupTitle.textContent = card.dataset.title || '';
+      popupDesc.textContent = card.dataset.desc || '';
+      popupVisual.style.background = card.dataset.bg || '#fff';
+      popup.classList.add('is-open');
+      popup.setAttribute('aria-hidden', 'false');
+    }
+    function closePopup(){
+      hideTimer = setTimeout(function(){
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }, 80);
+    }
+
+    cards.forEach(function(card){
+      card.addEventListener('mouseenter', function(){ openPopup(card); });
+      card.addEventListener('mouseleave', closePopup);
+      card.addEventListener('click', function(){ openPopup(card); });
+    });
+    popup.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    popup.addEventListener('mouseleave', closePopup);
+    popup.addEventListener('click', function(e){
+      if (e.target === popup){
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape'){
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+    });
+  })();
+
+  // --- contact/footer: reveal content as it scrolls into view ---
+  (function(){
+    var els = document.querySelectorAll('.contact-reveal');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.2 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>
