@@ -1035,17 +1035,22 @@
       margin:0 0 2px;
       order:-1;
     }
+    /* same full image as desktop, just rendered smaller — no cropping/zooming */
     .featured-card--renewbin .featured-card__mockup{
-      aspect-ratio:4/3.4;
+      aspect-ratio:auto;
       display:flex;
       align-items:flex-end;
       justify-content:center;
+      width:100%;
+      left:0;
+      right:0;
     }
     .featured-card--renewbin .featured-card__mockup img{
-      width:112%;
+      width:90%;
       max-width:none;
       height:auto;
       margin:0 auto;
+      display:block;
     }
     .featured-card--renewbin .featured-card__content{
       padding:20px 20px 0;
