@@ -2318,8 +2318,18 @@
     var popupDesc = document.getElementById('galleryPopupDesc');
     var popupVisual = document.getElementById('galleryPopupVisual');
     var popupClose = document.getElementById('galleryPopupClose');
-    var hoverMQ = window.matchMedia('(hover: hover) and (pointer: fine)');
     var hideTimer = null;
+
+    // Track real touch interaction so a tap's synthetic mouseenter/mouseleave
+    // pair doesn't open-then-instantly-close the popup on mobile. On an actual
+    // touch, "touchstart" always fires before any synthetic mouse events.
+    var touchActive = false;
+    var touchResetTimer = null;
+    document.addEventListener('touchstart', function(){
+      touchActive = true;
+      clearTimeout(touchResetTimer);
+      touchResetTimer = setTimeout(function(){ touchActive = false; }, 700);
+    }, { passive:true });
 
     cards.forEach(function(card){
       if (card.dataset.bg) card.style.setProperty('--accent', card.dataset.bg);
@@ -2344,21 +2354,21 @@
     }
 
     cards.forEach(function(card){
-      // Hover-to-preview only applies on devices with a real mouse; on touch,
-      // the synthetic mouseenter/mouseleave pair fired on tap would open the
-      // popup and then immediately close it again, making it look broken.
       card.addEventListener('mouseenter', function(){
-        if (hoverMQ.matches) openPopup(card);
+        if (!touchActive) openPopup(card);
       });
       card.addEventListener('mouseleave', function(){
-        if (hoverMQ.matches) closePopup();
+        if (!touchActive) closePopup();
       });
       card.addEventListener('click', function(){ openPopup(card); });
     });
-    popup.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
-    popup.addEventListener('mouseleave', function(){
-      if (hoverMQ.matches) closePopup();
-    });
+    var popupCard = popup.querySelector('.gallery-popup__card');
+    if (popupCard){
+      popupCard.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+      popupCard.addEventListener('mouseleave', function(){
+        if (!touchActive) closePopup();
+      });
+    }
     popup.addEventListener('click', function(e){
       if (e.target === popup) dismissPopup();
     });
