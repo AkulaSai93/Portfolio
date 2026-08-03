@@ -580,8 +580,10 @@
   .gallery-popup.is-open{
     opacity:1;
     visibility:visible;
+    pointer-events:auto;
   }
   .gallery-popup__card{
+    position:relative;
     width:min(640px, 90vw);
     max-height:85vh;
     background:#fff;
@@ -593,6 +595,27 @@
     box-shadow:0 40px 80px rgba(23,49,72,.35);
     transform:scale(.96);
     transition:transform .25s ease;
+  }
+  .gallery-popup__close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:none;
+    background:rgba(23,49,72,.08);
+    color:var(--navy);
+    font-size:22px;
+    line-height:1;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index:2;
+  }
+  @media (hover:none), (max-width:900px){
+    .gallery-popup__close{ display:flex; }
   }
   .gallery-popup.is-open .gallery-popup__card{
     transform:scale(1);
@@ -1730,6 +1753,7 @@
 
 <div class="gallery-popup" id="galleryPopup" aria-hidden="true">
   <div class="gallery-popup__card">
+    <button type="button" class="gallery-popup__close" id="galleryPopupClose" aria-label="Close">&times;</button>
     <div class="gallery-popup__visual" id="galleryPopupVisual">
       <img id="galleryPopupImg" src="" alt="">
     </div>
@@ -1868,7 +1892,7 @@
         canvas.height = h * DPR;
         canvas.style.width = w + 'px';
         canvas.style.height = h + 'px';
-        var spacing = 56;
+        var spacing = 76;
         var pad = 2; // extra rows/cols of margin so edges are never uncovered
         cols = Math.ceil(w / spacing) + pad * 2;
         rows = Math.ceil(h / spacing) + pad * 2;
@@ -1905,8 +1929,8 @@
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
         // ease the bulge center toward wherever the cursor currently is
-        focal.x += (target.x - focal.x) * 0.045;
-        focal.y += (target.y - focal.y) * 0.045;
+        focal.x += (target.x - focal.x) * 0.12;
+        focal.y += (target.y - focal.y) * 0.12;
 
         var RADIUS = Math.max(W, H) * 0.55 || 400;
 
@@ -1918,8 +1942,8 @@
           var falloff = Math.exp(-(dist * dist) / (2 * RADIUS * RADIUS));
           var tx = p.bx + (dx / dist) * STRENGTH * falloff;
           var ty = p.by + (dy / dist) * STRENGTH * falloff;
-          p.x += (tx - p.x) * 0.14;
-          p.y += (ty - p.y) * 0.14;
+          p.x += (tx - p.x) * 0.22;
+          p.y += (ty - p.y) * 0.22;
         }
 
         ctx.strokeStyle = 'rgba(23,49,72,.09)';
@@ -2293,6 +2317,8 @@
     var popupTitle = document.getElementById('galleryPopupTitle');
     var popupDesc = document.getElementById('galleryPopupDesc');
     var popupVisual = document.getElementById('galleryPopupVisual');
+    var popupClose = document.getElementById('galleryPopupClose');
+    var hoverMQ = window.matchMedia('(hover: hover) and (pointer: fine)');
     var hideTimer = null;
 
     cards.forEach(function(card){
@@ -2309,31 +2335,41 @@
       popup.classList.add('is-open');
       popup.setAttribute('aria-hidden', 'false');
     }
+    function dismissPopup(){
+      popup.classList.remove('is-open');
+      popup.setAttribute('aria-hidden', 'true');
+    }
     function closePopup(){
-      hideTimer = setTimeout(function(){
-        popup.classList.remove('is-open');
-        popup.setAttribute('aria-hidden', 'true');
-      }, 80);
+      hideTimer = setTimeout(dismissPopup, 80);
     }
 
     cards.forEach(function(card){
-      card.addEventListener('mouseenter', function(){ openPopup(card); });
-      card.addEventListener('mouseleave', closePopup);
+      // Hover-to-preview only applies on devices with a real mouse; on touch,
+      // the synthetic mouseenter/mouseleave pair fired on tap would open the
+      // popup and then immediately close it again, making it look broken.
+      card.addEventListener('mouseenter', function(){
+        if (hoverMQ.matches) openPopup(card);
+      });
+      card.addEventListener('mouseleave', function(){
+        if (hoverMQ.matches) closePopup();
+      });
       card.addEventListener('click', function(){ openPopup(card); });
     });
     popup.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
-    popup.addEventListener('mouseleave', closePopup);
-    popup.addEventListener('click', function(e){
-      if (e.target === popup){
-        popup.classList.remove('is-open');
-        popup.setAttribute('aria-hidden', 'true');
-      }
+    popup.addEventListener('mouseleave', function(){
+      if (hoverMQ.matches) closePopup();
     });
+    popup.addEventListener('click', function(e){
+      if (e.target === popup) dismissPopup();
+    });
+    if (popupClose){
+      popupClose.addEventListener('click', function(e){
+        e.stopPropagation();
+        dismissPopup();
+      });
+    }
     document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape'){
-        popup.classList.remove('is-open');
-        popup.setAttribute('aria-hidden', 'true');
-      }
+      if (e.key === 'Escape') dismissPopup();
     });
   })();
 
